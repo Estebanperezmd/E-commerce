@@ -1,1 +1,0 @@
-// TODO: llamadas al backend
