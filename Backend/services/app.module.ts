@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common';
 import { PagosModule } from './pagos/pagos.module';
-// Importa también otros módulos como Usuarios, Carrito, Pedido, etc.
 
 @Module({
   imports: [
@@ -12,4 +11,5 @@ import { PagosModule } from './pagos/pagos.module';
   ],
 })
 export class AppModule {}
+
 
