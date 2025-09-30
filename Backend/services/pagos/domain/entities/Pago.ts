@@ -1,27 +1,19 @@
-import { ApiProperty } from '@nestjs/swagger';
-
+/**
+ * Representa un pago dentro del sistema
+ */
 export class Pago {
-  @ApiProperty({ example: 1 })
-  id: number | null;
-
-  @ApiProperty({ example: 250.75 })
-  monto: number;
-
-  @ApiProperty({ example: 'tarjeta_credito' })
-  metodo: string;
-
-  @ApiProperty({ example: '2025-09-29T20:00:00Z' })
-  fechaPago: Date | null;
-
-  constructor(
-    id: number | null,
-    monto: number,
-    metodo: string,
-    fechaPago: Date | null = null,
-  ) {
-    this.id = id;
-    this.monto = monto;
-    this.metodo = metodo;
-    this.fechaPago = fechaPago;
+  /**
+   * @param {number|null} id - Identificador único del pago
+   * @param {number} monto - Monto del pago
+   * @param {string} metodo - Método de pago (ej: "tarjeta_credito")
+   * @param {Date|null} [fechaPago=null] - Fecha en que se realizó el pago
+   */
+  constructor(id = null, monto, metodo, fechaPago = null) {
+    this.id = id;               // number | null
+    this.monto = monto;         // number
+    this.metodo = metodo;       // string
+    this.fechaPago = fechaPago; // Date | null
   }
 }
+
+
