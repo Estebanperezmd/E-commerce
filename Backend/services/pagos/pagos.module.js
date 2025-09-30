@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { PagoController } from './interfaces/controllers/PagoController';
-import { PaymentService } from './application/services/PaymentService';
-import { Pago } from './domain/entities/Pago';
+import { PagoController } from './interfaces/controllers/PagoController.js';
+import { PaymentService } from './application/services/PaymentService.js';
+import { Pago } from './domain/entities/Pago.js';
 
 @Module({
   imports: [
@@ -13,3 +13,4 @@ import { Pago } from './domain/entities/Pago';
   exports: [PaymentService],
 })
 export class PagosModule {}
+
