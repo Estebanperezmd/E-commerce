@@ -1,1 +1,0 @@
-// TODO: lógica de pagos
