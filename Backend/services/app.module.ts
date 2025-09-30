@@ -5,10 +5,11 @@ import { PagosModule } from './pagos/pagos.module';
 @Module({
   imports: [
     PagosModule,
-    // UsuariosModule,
-    // CarritoModule,
-    // PedidoModule,
-    // ProductosModule
+    UsuariosModule,
+    CarritoModule,
+    PedidoModule,
+    ProductosModule
   ],
 })
 export class AppModule {}
+
