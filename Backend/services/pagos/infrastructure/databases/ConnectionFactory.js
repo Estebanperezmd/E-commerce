@@ -1,5 +1,5 @@
 import { DataSource } from 'typeorm';
-import { databaseConfig } from './DatabaseConfig';
+import { databaseConfig } from './DatabaseConfig.js';
 
 export const AppDataSource = new DataSource(databaseConfig);
 
@@ -14,4 +14,5 @@ export const initDatabase = async () => {
     throw error;
   }
 };
+
 
