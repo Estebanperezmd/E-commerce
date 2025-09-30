@@ -1,20 +1,17 @@
 import { Controller, Post, Get, Param, Body } from '@nestjs/common';
 import { ApiTags, ApiResponse } from '@nestjs/swagger';
-import { PagoDTO } from '../dtos/PagoDTO';
-import { Pago } from '../../domain/entities/Pago';
-import { PaymentService } from '../../application/services/PaymentService';
-import { CreatePago } from '../../application/use-cases/CreatePago';
-import { GetPago } from '../../application/use-cases/GetPago';
-import { ListPagos } from '../../application/use-cases/ListPagos';
+import { PagoDTO } from '../dtos/PagoDTO.js';
+import { Pago } from '../../domain/entities/Pago.js';
+import { PaymentService } from '../../application/services/PaymentService.js';
+import { CreatePago } from '../../application/use-cases/CreatePago.js';
+import { GetPago } from '../../application/use-cases/GetPago.js';
+import { ListPagos } from '../../application/use-cases/ListPagos.js';
 
-@ApiTags('Pagos') // Esto agrupa los endpoints bajo la categoría "Pagos" en Swagger
+@ApiTags('Pagos') // Agrupa los endpoints bajo la categoría "Pagos" en Swagger
 @Controller('pagos')
 export class PagoController {
-  private createPago: CreatePago;
-  private getPago: GetPago;
-  private listPagos: ListPagos;
-
-  constructor(private readonly paymentService: PaymentService) {
+  constructor(paymentService) {
+    this.paymentService = paymentService;
     this.createPago = new CreatePago(this.paymentService);
     this.getPago = new GetPago(this.paymentService);
     this.listPagos = new ListPagos(this.paymentService);
@@ -26,7 +23,7 @@ export class PagoController {
     description: 'Pago creado exitosamente',
     type: Pago,
   })
-  create(@Body() dto: PagoDTO) {
+  create(@Body() dto) {
     return this.createPago.execute(dto);
   }
 
@@ -46,8 +43,7 @@ export class PagoController {
     description: 'Detalle de un pago específico',
     type: Pago,
   })
-  getById(@Param('id') id: string) {
+  getById(@Param('id') id) {
     return this.getPago.execute(+id);
   }
 }
-
