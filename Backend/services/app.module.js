@@ -3,18 +3,18 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 
 // Importa todos tus módulos
-import { PagosModule } from './pagos/pagos.module';
-import { UsuariosModule } from './usuarios/usuarios.module';
-import { CarritoModule } from './carrito/carrito.module';
-import { PedidoModule } from './pedido/pedido.module';
-import { ProductosModule } from './productos/productos.module';
+import { PagosModule } from './pagos/pagos.module.js';
+import { UsuariosModule } from './usuarios/usuarios.module.js';
+import { CarritoModule } from './carrito/carrito.module.js';
+import { PedidoModule } from './pedido/pedido.module.js';
+import { ProductosModule } from './productos/productos.module.js';
 
 // Importa tus entidades
-import { Pago } from './pagos/domain/entities/Pago';
-import { Usuario } from './usuarios/domain/entities/Usuario';
-import { Carrito } from './carrito/domain/entities/Carrito';
-import { Pedido } from './pedido/domain/entities/Pedido';
-import { Producto } from './productos/domain/entities/Producto';
+import { Pago } from './pagos/domain/entities/Pago.js';
+import { Usuario } from './usuarios/domain/entities/Usuario.js';
+import { Carrito } from './carrito/domain/entities/Carrito.js';
+import { Pedido } from './pedido/domain/entities/Pedido.js';
+import { Producto } from './productos/domain/entities/Producto.js';
 
 @Module({
   imports: [
@@ -27,10 +27,10 @@ import { Producto } from './productos/domain/entities/Producto';
       password: process.env.DB_PASSWORD || 'postgres',
       database: process.env.DB_NAME || 'ecommerce_db',
       entities: [Pago, Usuario, Carrito, Pedido, Producto],
-      synchronize: true, // ⚠️ solo para desarrollo, no usar en producción
+      synchronize: true, // ⚠️ Solo para desarrollo, no usar en producción
     }),
 
-    //importa todos los módulos
+    // importa todos los módulos
     PagosModule,
     UsuariosModule,
     CarritoModule,
@@ -39,7 +39,5 @@ import { Producto } from './productos/domain/entities/Producto';
   ],
 })
 export class AppModule {}
-
-
 
 
