@@ -1,15 +1,16 @@
-const pool = require('./DatabaseConfig');
+import { DataSource } from 'typeorm';
+import { databaseConfig } from './DatabaseConfig.js';
 
-class ConnectionFactory {
-  static async query(text, params) {
-    const client = await pool.connect();
-    try {
-      const res = await client.query(text, params);
-      return res;
-    } finally {
-      client.release();
+export const AppDataSource = new DataSource(databaseConfig);
+
+export const initDatabase = async () => {
+  try {
+    if (!AppDataSource.isInitialized) {
+      await AppDataSource.initialize();
+      console.log('📦 Database connected successfully');
     }
+  } catch (error) {
+    console.error('❌ Error connecting to database:', error);
+    throw error;
   }
-}
-
-module.exports = ConnectionFactory;
+};
