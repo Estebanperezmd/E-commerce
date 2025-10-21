@@ -1,28 +1,37 @@
-const { Controller, Get, Post } = require('@nestjs/common');
-const CreateCart = require('../../application/use-cases/CreateCart');
-const CartDTO = require('../dtos/CartDTO');
+const CartService = require('../../application/services/CartService');
+const CartRepositoryImpl = require('../../infrastructure/repositories/CartRepositoryImpl');
+
+const repository = new CartRepositoryImpl();
+const cartService = new CartService(repository);
 
 class CartController {
-  constructor() {
-    this.createCart = new CreateCart();
-    this.carts = [];
+  static async create(req, res) {
+    try {
+      const result = await cartService.createCart();
+      res.status(201).json(result);
+    } catch (err) {
+      res.status(500).json({ error: err.message });
+    }
   }
 
-  create() {
-    const newCart = this.createCart.execute();
-    this.carts.push(newCart);
-    return new CartDTO(newCart.id, newCart.createdAt, newCart.status);
+  static async addProduct(req, res) {
+    try {
+      const data = { ...req.body, id_carrito: Number(req.params.id_carrito) };
+      const result = await cartService.addProduct(data);
+      res.status(200).json(result);
+    } catch (err) {
+      res.status(500).json({ error: err.message });
+    }
   }
 
-  findAll() {
-    return this.carts.map(
-      (cart) => new CartDTO(cart.id, cart.createdAt, cart.status)
-    );
+  static async findCart(req, res) {
+    try {
+      const result = await cartService.getCart(Number(req.params.id_carrito));
+      res.status(200).json(result);
+    } catch (err) {
+      res.status(500).json({ error: err.message });
+    }
   }
 }
 
-Post()(CartController.prototype, 'create', Object.getOwnPropertyDescriptor(CartController.prototype, 'create'));
-Get()(CartController.prototype, 'findAll', Object.getOwnPropertyDescriptor(CartController.prototype, 'findAll'));
-Controller('carts')(CartController);
-
-module.exports = { CartController };
+module.exports = CartController;

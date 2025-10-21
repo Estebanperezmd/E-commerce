@@ -1,32 +1,38 @@
-const { Controller, Get, Post, Body } = require('@nestjs/common');
-const OrderDTO = require('../dtos/orderDTO');
+const OrderService = require('../../application/services/orderService');
+const OrderRepositoryImpl = require('../../infrastructure/repositories/OrderRepositoryImpl');
+
+const repository = new OrderRepositoryImpl();
+const orderService = new OrderService(repository);
 
 class OrderController {
-  constructor() {
-    this.orders = [];
-    this.currentId = 1;
+  static async create(req, res) {
+    try {
+      const { id_carrito } = req.body;
+      const pedido = await orderService.createOrder(Number(id_carrito));
+      res.status(201).json(pedido);
+    } catch (err) {
+      res.status(500).json({ error: err.message });
+    }
   }
 
-  create(orderData) {
-    const newOrder = new OrderDTO(
-      this.currentId++,
-      orderData.userId,
-      orderData.items,
-      new Date().toISOString(),
-      'pending'
-    );
-    this.orders.push(newOrder);
-    return newOrder;
+  static async findAll(req, res) {
+    try {
+      const pedidos = await orderService.listOrders();
+      res.status(200).json(pedidos);
+    } catch (err) {
+      res.status(500).json({ error: err.message });
+    }
   }
 
-  findAll() {
-    return this.orders;
+  static async findById(req, res) {
+    try {
+      const pedido = await orderService.getOrderById(Number(req.params.id));
+      if (!pedido) return res.status(404).json({ message: 'Pedido no encontrado' });
+      res.status(200).json(pedido);
+    } catch (err) {
+      res.status(500).json({ error: err.message });
+    }
   }
 }
 
-// aplicar decoradores manualmente (JS puro)
-Post()(OrderController.prototype, 'create', Object.getOwnPropertyDescriptor(OrderController.prototype, 'create'));
-Get()(OrderController.prototype, 'findAll', Object.getOwnPropertyDescriptor(OrderController.prototype, 'findAll'));
-Controller('orders')(OrderController);
-
-module.exports = { OrderController };
+module.exports = OrderController;
