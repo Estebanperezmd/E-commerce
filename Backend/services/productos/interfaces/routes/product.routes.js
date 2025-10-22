@@ -1,13 +1,13 @@
 const { Router } = require('express');
 const ProductController = require('../controllers/ProductController');
-// const authMiddleware = require('../middleware/authMiddleware');
-// const adminMiddleware = require('../middleware/adminMiddleware');
+const AuthMiddleware = require('../middleware/AuthMiddleware');
+const AdminMiddleware = require('../middleware/AdminMiddleware');
 
 const router = Router();
 
-// rutas públicas
-router.get('/', (req, res) => productController.getAllProducts(req, res));
-router.get('/:id', (req, res) => productController.getProduct(req, res));
+// Rutas públicas
+router.get('/', ProductController.findAll);
+router.get('/:id', ProductController.findById);
 
 // // Rutas protegidas (solo admin)
 // router.post('/', [authMiddleware, adminMiddleware], ProductController.create);
