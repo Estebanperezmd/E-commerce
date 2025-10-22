@@ -17,8 +17,11 @@ services:
       - ecommerce_net
 
   pagos:
-    build: ./pagos
+    build:
+      context: ./pagos
+      dockerfile: Dockerfile
     container_name: pagos_service
+    restart: always
     ports:
       - "3001:3000"
     depends_on:
@@ -33,8 +36,11 @@ services:
       - ecommerce_net
 
   usuarios:
-    build: ./usuarios
+    build:
+      context: ./usuarios
+      dockerfile: Dockerfile
     container_name: usuarios_service
+    restart: always
     ports:
       - "3002:3000"
     depends_on:
@@ -49,8 +55,11 @@ services:
       - ecommerce_net
 
   carrito:
-    build: ./carrito
+    build:
+      context: ./carrito
+      dockerfile: Dockerfile
     container_name: carrito_service
+    restart: always
     ports:
       - "3003:3000"
     depends_on:
@@ -65,8 +74,11 @@ services:
       - ecommerce_net
 
   pedido:
-    build: ./pedido
+    build:
+      context: ./pedido
+      dockerfile: Dockerfile
     container_name: pedido_service
+    restart: always
     ports:
       - "3004:3000"
     depends_on:
@@ -81,8 +93,11 @@ services:
       - ecommerce_net
 
   productos:
-    build: ./productos
+    build:
+      context: ./productos
+      dockerfile: Dockerfile
     container_name: productos_service
+    restart: always
     ports:
       - "3005:3000"
     depends_on:
@@ -96,9 +111,28 @@ services:
     networks:
       - ecommerce_net
 
+  gateway:
+    build:
+      context: ./gateway
+      dockerfile: Dockerfile
+    container_name: api_gateway
+    restart: always
+    ports:
+      - "3000:3000"
+    depends_on:
+      - pagos
+      - usuarios
+      - carrito
+      - pedido
+      - productos
+    networks:
+      - ecommerce_net
+
 networks:
   ecommerce_net:
 
 volumes:
   postgres_data:
+
+
 
