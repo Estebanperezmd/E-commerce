@@ -1,7 +1,7 @@
 {
-  "name": "usuarios-service",
+  "name": "pedido-service",
   "version": "1.0.0",
-  "description": "Microservicio de Usuarios - E-commerce",
+  "description": "Microservicio de Pedidos - E-commerce",
   "type": "module",
   "scripts": {
     "start": "node src/main.js",
@@ -21,3 +21,4 @@
     "nodemon": "^3.0.3"
   }
 }
+
