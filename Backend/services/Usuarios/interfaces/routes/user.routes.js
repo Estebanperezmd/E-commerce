@@ -1,15 +1,18 @@
 const { Router } = require('express');
 const UserController = require('../controllers/UserController');
-const authMiddleware = require('../middleware/authMiddleware');
+const AuthMiddleware = require('../middleware/AuthMiddleware');
 
 const router = Router();
 
-
 // Rutas públicas
 router.post('/register', UserController.create);
+router.post('/login', UserController.login);
 
-// Rutas protegidas (cuando tengas las funciones)
-router.get('/', authMiddleware, UserController.findAll);
+// Rutas protegidas
+router.get('/profile', AuthMiddleware, UserController.getProfile);
+router.put('/profile', AuthMiddleware, UserController.updateProfile);
+router.get('/:id', AuthMiddleware, UserController.findById);
+router.delete('/:id', AuthMiddleware, UserController.delete);
 // // Rutas públicas
 // router.post('/register', UserController.create);
 // router.post('/login', UserController.login);
