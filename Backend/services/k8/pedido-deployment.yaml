@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pedido
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pedido
+  template:
+    metadata:
+      labels:
+        app: pedido
+    spec:
+      containers:
+        - name: pedido
+          image: pedido-service:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 3004
+          env:
+            - name: DB_HOST
+              value: postgres
+            - name: DB_PORT
+              value: "5432"
+            - name: DB_USER
+              value: postgres
+            - name: DB_PASSWORD
+              value: postgres
+            - name: DB_NAME
+              value: ecommerce_db
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pedido
+spec:
+  selector:
+    app: pedido
+  ports:
+    - port: 3004
+      targetPort: 3004
+  type: ClusterIP
