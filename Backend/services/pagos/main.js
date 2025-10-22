@@ -1,17 +1,16 @@
-import express from 'express';
-import bodyParser from 'body-parser';
-import { createConnection } from './infrastructure/databases/ConnectionFactory.js';
-import { PagoController } from './interfaces/controllers/PagoController.js';
+const express = require('express');
+const bodyParser = require('body-parser');
+const { initDatabase } = require('./infrastructure/databases/ConnectionFactory');
+const pagoRoutes = require('./interfaces/routes/payment.routes');
 
 const app = express();
 app.use(bodyParser.json());
 
 // rutas del microservicio pagos
-const pagoController = new PagoController();
-app.use('/pagos', pagoController.router);
+app.use('/pagos', pagoRoutes);
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, async () => {
-  await createConnection();
+  await initDatabase();
   console.log(`💰 Microservicio Pagos corriendo en puerto ${PORT}`);
 });

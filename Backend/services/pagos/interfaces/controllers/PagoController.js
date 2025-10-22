@@ -1,49 +1,52 @@
-import { Controller, Post, Get, Param, Body } from '@nestjs/common';
-import { ApiTags, ApiResponse } from '@nestjs/swagger';
-import { PagoDTO } from '../dtos/PagoDTO.js';
-import { Pago } from '../../domain/entities/Pago.js';
-import { PaymentService } from '../../application/services/PaymentService.js';
-import { CreatePago } from '../../application/use-cases/CreatePago.js';
-import { GetPago } from '../../application/use-cases/GetPago.js';
-import { ListPagos } from '../../application/use-cases/ListPagos.js';
+const CreatePago = require('../../application/use-cases/CreatePago');
+const GetPago = require('../../application/use-cases/GetPago');
+const ListPagos = require('../../application/use-cases/ListPagos');
+const PaymentService = require('../../application/services/PaymentService');
+const PagoDTO = require('../dtos/PagoDTO');
 
-@ApiTags('Pagos') // Agrupa los endpoints bajo la categoría "Pagos" en Swagger
-@Controller('pagos')
-export class PagoController {
-  constructor(paymentService) {
-    this.paymentService = paymentService;
-    this.createPago = new CreatePago(this.paymentService);
-    this.getPago = new GetPago(this.paymentService);
-    this.listPagos = new ListPagos(this.paymentService);
+
+class PagoController {
+  constructor() {
+    this.paymentService = new PaymentService();
+    this.createPagoUseCase = new CreatePago(this.paymentService);
+    this.getPagoUseCase = new GetPago(this.paymentService);
+    this.listPagosUseCase = new ListPagos(this.paymentService);
   }
 
-  @Post()
-  @ApiResponse({
-    status: 201,
-    description: 'Pago creado exitosamente',
-    type: Pago,
-  })
-  create(@Body() dto) {
-    return this.createPago.execute(dto);
+  // POST /pagos
+  async createPago(req, res) {
+    try {
+      const dto = new PagoDTO(req.body);
+      const result = await this.createPagoUseCase.execute(dto);
+      res.status(201).json(result);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
   }
 
-  @Get()
-  @ApiResponse({
-    status: 200,
-    description: 'Lista de todos los pagos',
-    type: [Pago],
-  })
-  list() {
-    return this.listPagos.execute();
+  // GET /pagos/:id
+  async getPagoById(req, res) {
+    try {
+      const id = parseInt(req.params.id);
+      const result = await this.getPagoUseCase.execute(id);
+      if (!result) {
+        return res.status(404).json({ message: 'Pago no encontrado' });
+      }
+      res.status(200).json(result);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
   }
 
-  @Get(':id')
-  @ApiResponse({
-    status: 200,
-    description: 'Detalle de un pago específico',
-    type: Pago,
-  })
-  getById(@Param('id') id) {
-    return this.getPago.execute(+id);
+  // GET /pagos
+  async getAllPagos(req, res) {
+    try {
+      const result = await this.listPagosUseCase.execute();
+      res.status(200).json(result);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
   }
 }
+
+module.exports = PagoController;

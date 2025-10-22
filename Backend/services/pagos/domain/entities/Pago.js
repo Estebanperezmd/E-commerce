@@ -1,7 +1,7 @@
 /**
  * Representa un pago dentro del sistema
  */
-export class Pago {
+class Pago {
   /**
    * @param {number|null} id - Identificador único del pago
    * @param {number} monto - Monto del pago
@@ -16,4 +16,4 @@ export class Pago {
   }
 }
 
-
+module.exports = Pago;

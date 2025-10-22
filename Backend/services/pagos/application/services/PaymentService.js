@@ -1,7 +1,8 @@
-import { Pago } from '../../domain/entities/Pago.js';
+const Pago = require('../../domain/entities/Pago');
+
 
 // Simulación inicial (en producción conecta con DB vía repositorio)
-export class PaymentService {
+ class PaymentService {
   constructor() {
     this.pagos = [];
     this.idCounter = 1;
@@ -22,3 +23,4 @@ export class PaymentService {
     return this.pagos;
   }
 }
+ module.exports = PaymentService;

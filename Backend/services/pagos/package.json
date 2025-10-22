@@ -2,7 +2,6 @@
   "name": "pagos-service",
   "version": "1.0.0",
   "description": "Microservicio de Pagos - E-commerce",
-  "type": "module",
   "scripts": {
     "start": "node main.js",
     "start:dev": "nodemon main.js"
