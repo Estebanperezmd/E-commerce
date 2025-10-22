@@ -125,6 +125,12 @@ services:
       - carrito
       - pedido
       - productos
+    environment:
+      PAGOS_URL: http://pagos_service:3000
+      USUARIOS_URL: http://usuarios_service:3000
+      CARRITO_URL: http://carrito_service:3000
+      PEDIDO_URL: http://pedido_service:3000
+      PRODUCTOS_URL: http://productos_service:3000
     networks:
       - ecommerce_net
 
@@ -133,6 +139,8 @@ networks:
 
 volumes:
   postgres_data:
+
+
 
 
 
