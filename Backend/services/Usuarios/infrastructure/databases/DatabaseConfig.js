@@ -1,11 +1,15 @@
-const { Pool } = require('pg');
+// infrastructure/databases/DatabaseConfig.js
+const { Usuario } = require('../../domain/entities/User'); // ajusta al nombre real de tu entidad
 
-const pool = new Pool({
-  user: process.env.DB_USER || 'postgres',
+const databaseConfig = {
+  type: 'postgres',
   host: process.env.DB_HOST || 'localhost',
-  database: process.env.DB_NAME || 'ecommerce',
-  password: process.env.DB_PASSWORD || 'postgres',
   port: process.env.DB_PORT ? Number(process.env.DB_PORT) : 5432,
-});
+  username: process.env.DB_USER || 'postgres',
+  password: process.env.DB_PASSWORD || 'postgres',
+  database: process.env.DB_NAME || 'ecommerce',
+  entities: [Usuario],
+  synchronize: true,
+};
 
-module.exports = pool;
+module.exports = { databaseConfig };

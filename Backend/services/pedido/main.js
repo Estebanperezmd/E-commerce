@@ -1,17 +1,14 @@
-import express from 'express';
-import bodyParser from 'body-parser';
-import { createConnection } from './infrastructure/databases/connection.js';
-import { PedidoController } from './interfaces/controllers/PedidoController.js';
+const express = require('express');
+const bodyParser = require('body-parser');
+const { initDatabase } = require('./infrastructure/databases/ConnectionFactory');
+const orderRoutes = require('./interfaces/routes/OrderRoutes');
 
 const app = express();
 app.use(bodyParser.json());
-
-// rutas del microservicio pedido
-const pedidoController = new PedidoController();
-app.use('/pedidos', pedidoController.router);
+app.use('/pedidos', orderRoutes);
 
 const PORT = process.env.PORT || 3004;
 app.listen(PORT, async () => {
-  await createConnection();
-  console.log(`📦 Microservicio Pedido corriendo en puerto ${PORT}`);
+  await initDatabase();
+  console.log(`📦 Microservicio Pedidos corriendo en puerto ${PORT}`);
 });

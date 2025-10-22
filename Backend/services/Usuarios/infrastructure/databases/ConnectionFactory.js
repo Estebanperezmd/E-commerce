@@ -1,9 +1,10 @@
-import { DataSource } from 'typeorm';
-import { databaseConfig } from './DatabaseConfig.js';
+const { DataSource } = require('typeorm');
+const { databaseConfig } = require('./DatabaseConfig');
 
-export const AppDataSource = new DataSource(databaseConfig);
 
-export const initDatabase = async () => {
+ const AppDataSource = new DataSource(databaseConfig);
+
+ const initDatabase = async () => {
   try {
     if (!AppDataSource.isInitialized) {
       await AppDataSource.initialize();
@@ -14,3 +15,5 @@ export const initDatabase = async () => {
     throw error;
   }
 };
+
+module.exports = { AppDataSource, initDatabase };

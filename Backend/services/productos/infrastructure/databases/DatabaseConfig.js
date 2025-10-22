@@ -1,12 +1,16 @@
 // productos/infrastructure/databases/DatabaseConfig.js
-const { Pool } = require('pg');
 
-const pool = new Pool({
-  user: process.env.DB_USER || 'postgres',
+const { Producto } = require('../../domain/entities/Product.js');
+
+const databaseConfig = {
+  type: 'postgres',
   host: process.env.DB_HOST || 'localhost',
-  database: process.env.DB_NAME || 'ecommerce',
-  password: process.env.DB_PASSWORD || 'postgres',
   port: process.env.DB_PORT ? Number(process.env.DB_PORT) : 5432,
-});
+  username: process.env.DB_USER || 'postgres',
+  password: process.env.DB_PASSWORD || 'postgres',
+  database: process.env.DB_NAME || 'ecommerce',
+  entities: [Producto],
+  synchronize: true, // Solo para desarrollo
+};
 
-module.exports = pool;
+module.exports = { databaseConfig };

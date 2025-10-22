@@ -1,6 +1,6 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-import { createConnection } from './infrastructure/databases/connection.js';
+import { createConnection } from './infrastructure/databases/ConnectionFactory.js';
 import { PagoController } from './interfaces/controllers/PagoController.js';
 
 const app = express();

@@ -1,17 +1,17 @@
-import express from 'express';
-import bodyParser from 'body-parser';
-import { createConnection } from './infrastructure/databases/connection.js';
-import { ProductoController } from './interfaces/controllers/ProductoController.js';
+const express = require('express');
+const bodyParser = require('body-parser');
+const { initDatabase } = require('./infrastructure/databases/ConnectionFactory');
+const ProductRoute = require('./interfaces/routes/product.routes');
 
 const app = express();
 app.use(bodyParser.json());
 
 // rutas del microservicio productos
-const productoController = new ProductoController();
-app.use('/productos', productoController.router);
+
+app.use('/productos', ProductRoute);
 
 const PORT = process.env.PORT || 3005;
 app.listen(PORT, async () => {
-  await createConnection();
+  await initDatabase();
   console.log(`🧾 Microservicio Productos corriendo en puerto ${PORT}`);
 });

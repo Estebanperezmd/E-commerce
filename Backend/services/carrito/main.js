@@ -1,17 +1,17 @@
-import express from 'express';
-import bodyParser from 'body-parser';
-import { createConnection } from './infrastructure/databases/connection.js';
-import { CarritoController } from './interfaces/controllers/CarritoController.js';
+const express = require('express');
+const bodyParser = require('body-parser');
+const { initDatabase } = require('./infrastructure/databases/ConnectionFactory');
+const CartController = require('./interfaces/controllers/CartController');
 
 const app = express();
 app.use(bodyParser.json());
 
-// rutas del microservicio carrito
-const carritoController = new CarritoController();
-app.use('/carrito', carritoController.router);
+
+app.post('/carrito', CartController.addProduct);
+app.get('/carrito/:idUsuario', CartController.getCartByUser);
 
 const PORT = process.env.PORT || 3003;
-app.listen(PORT, async () => {
-  await createConnection();
+app.listen(PORT, async() => {
+  await initDatabase();
   console.log(`🛍️ Microservicio Carrito corriendo en puerto ${PORT}`);
 });
