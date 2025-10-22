@@ -1,35 +1,48 @@
-const CartService = require('../../application/services/CartService');
-const CartRepositoryImpl = require('../../infrastructure/repositories/CartRepositoryImpl');
-
-const repository = new CartRepositoryImpl();
-const cartService = new CartService(repository);
+const axios = require('axios');
+const ConnectionFactory = require('../../infrastructure/databases/ConnectionFactory');
+const CartDTO = require('../dtos/CartDTO');
 
 class CartController {
-  static async create(req, res) {
-    try {
-      const result = await cartService.createCart();
-      res.status(201).json(result);
-    } catch (err) {
-      res.status(500).json({ error: err.message });
-    }
-  }
-
   static async addProduct(req, res) {
     try {
-      const data = { ...req.body, id_carrito: Number(req.params.id_carrito) };
-      const result = await cartService.addProduct(data);
-      res.status(200).json(result);
-    } catch (err) {
-      res.status(500).json({ error: err.message });
+      const { id_usuario, id_producto, cantidad } = req.body;
+
+      // Validar existencia del usuario
+      const userResponse = await axios.get(`http://localhost:3000/usuarios/${id_usuario}`);
+      if (!userResponse.data) return res.status(404).json({ message: 'Usuario no encontrado' });
+
+      // Validar existencia del producto
+      const productResponse = await axios.get(`http://localhost:3001/productos/${id_producto}`);
+      if (!productResponse.data) return res.status(404).json({ message: 'Producto no encontrado' });
+
+      // Insertar producto en carrito
+      const query = `
+        INSERT INTO carrito (id_usuario, id_producto, cantidad, fecha_creacion)
+        VALUES ($1, $2, $3, NOW())
+        RETURNING id, id_usuario, id_producto, cantidad, fecha_creacion
+      `;
+      const result = await ConnectionFactory.query(query, [id_usuario, id_producto, cantidad]);
+
+      const cartDto = new CartDTO(result.rows[0]);
+      return res.status(201).json(cartDto);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
     }
   }
 
-  static async findCart(req, res) {
+  static async getCartByUser(req, res) {
     try {
-      const result = await cartService.getCart(Number(req.params.id_carrito));
-      res.status(200).json(result);
-    } catch (err) {
-      res.status(500).json({ error: err.message });
+      const { idUsuario } = req.params;
+      const query = `SELECT * FROM carrito WHERE id_usuario = $1`;
+      const result = await ConnectionFactory.query(query, [idUsuario]);
+
+      if (result.rows.length === 0)
+        return res.status(404).json({ message: 'Carrito vacío o usuario no encontrado' });
+
+      const cartItems = result.rows.map(row => new CartDTO(row));
+      res.status(200).json(cartItems);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
     }
   }
 }

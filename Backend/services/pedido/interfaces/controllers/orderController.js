@@ -1,36 +1,45 @@
-const OrderService = require('../../application/services/orderService');
-const OrderRepositoryImpl = require('../../infrastructure/repositories/OrderRepositoryImpl');
-
-const repository = new OrderRepositoryImpl();
-const orderService = new OrderService(repository);
+const axios = require('axios');
+const ConnectionFactory = require('../../infrastructure/databases/ConnectionFactory');
 
 class OrderController {
-  static async create(req, res) {
+  static async createOrder(req, res) {
     try {
-      const { id_carrito } = req.body;
-      const pedido = await orderService.createOrder(Number(id_carrito));
-      res.status(201).json(pedido);
-    } catch (err) {
-      res.status(500).json({ error: err.message });
+      const { idUsuario } = req.body;
+
+      // Verificar usuario
+      const userRes = await axios.get(`http://localhost:3000/usuarios/${idUsuario}`);
+      if (!userRes.data) return res.status(404).json({ message: 'Usuario no encontrado' });
+
+      // Verificar carrito
+      const cartRes = await axios.get(`http://localhost:3002/carrito/${idUsuario}`);
+      if (!cartRes.data || cartRes.data.length === 0)
+        return res.status(400).json({ message: 'Carrito vacío o no encontrado' });
+
+      // Crear pedido
+      const query = `
+        INSERT INTO pedidos (id_usuario, fecha, estado)
+        VALUES ($1, NOW(), 'CREADO')
+        RETURNING id, id_usuario, fecha, estado
+      `;
+      const result = await ConnectionFactory.query(query, [idUsuario]);
+      res.status(201).json(result.rows[0]);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
     }
   }
 
-  static async findAll(req, res) {
+  static async getOrderById(req, res) {
     try {
-      const pedidos = await orderService.listOrders();
-      res.status(200).json(pedidos);
-    } catch (err) {
-      res.status(500).json({ error: err.message });
-    }
-  }
+      const { id } = req.params;
+      const query = `SELECT * FROM pedidos WHERE id = $1`;
+      const result = await ConnectionFactory.query(query, [id]);
 
-  static async findById(req, res) {
-    try {
-      const pedido = await orderService.getOrderById(Number(req.params.id));
-      if (!pedido) return res.status(404).json({ message: 'Pedido no encontrado' });
-      res.status(200).json(pedido);
-    } catch (err) {
-      res.status(500).json({ error: err.message });
+      if (result.rows.length === 0)
+        return res.status(404).json({ message: 'Pedido no encontrado' });
+
+      res.status(200).json(result.rows[0]);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
     }
   }
 }
