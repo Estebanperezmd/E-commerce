@@ -1,0 +1,44 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ecommerce-ingress
+spec:
+  rules:
+    - host: ecommerce.local
+      http:
+        paths:
+          - path: /pagos
+            pathType: Prefix
+            backend:
+              service:
+                name: pagos
+                port:
+                  number: 3000
+          - path: /usuarios
+            pathType: Prefix
+            backend:
+              service:
+                name: usuarios
+                port:
+                  number: 3000
+          - path: /carrito
+            pathType: Prefix
+            backend:
+              service:
+                name: carrito
+                port:
+                  number: 3000
+          - path: /pedido
+            pathType: Prefix
+            backend:
+              service:
+                name: pedido
+                port:
+                  number: 3000
+          - path: /productos
+            pathType: Prefix
+            backend:
+              service:
+                name: productos
+                port:
+                  number: 3000
