@@ -1,73 +1,104 @@
-version: "3.9"
+version: '3.9'
 
 services:
-  # ---------------- USUARIOS ----------------
-  usuarios-service:
-    build: ./Backend/services/usuarios
-    container_name: usuarios-service
+  postgres:
+    image: postgres:15
+    container_name: postgres_db
     restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: ecommerce_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - ecommerce_net
+
+  pagos:
+    build: ./pagos
+    container_name: pagos_service
     ports:
       - "3001:3000"
-    environment:
-      - DB_HOST=db-usuarios
-      - DB_PORT=5432
-      - DB_USER=postgres
-      - DB_PASSWORD=postgres
-      - DB_NAME=usuarios_db
     depends_on:
-      - db-usuarios
-
-  db-usuarios:
-    image: postgres:15
-    container_name: db-usuarios
-    restart: always
-    ports:
-      - "5433:5432"
+      - postgres
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: usuarios_db
-    volumes:
-      - db_usuarios_data:/var/lib/postgresql/data
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_NAME: ecommerce_db
+    networks:
+      - ecommerce_net
 
-  # ---------------- CARRITO ----------------
-  carrito-service:
-    build: ./Backend/services/carrito
-    container_name: carrito-service
-    restart: always
+  usuarios:
+    build: ./usuarios
+    container_name: usuarios_service
     ports:
       - "3002:3000"
-    environment:
-      - DB_HOST=db-carrito
-      - DB_PORT=5432
-      - DB_USER=postgres
-      - DB_PASSWORD=postgres
-      - DB_NAME=carrito_db
     depends_on:
-      - db-carrito
-
-  db-carrito:
-    image: postgres:15
-    container_name: db-carrito
-    restart: always
-    ports:
-      - "5434:5432"
+      - postgres
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: carrito_db
-    volumes:
-      - db_carrito_data:/var/lib/postgresql/data
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_NAME: ecommerce_db
+    networks:
+      - ecommerce_net
 
-  # ---------------- PAGOS ----------------
-  pagos-service:
-    build: ./Backend/services/pagos
-    container_name: pagos-service
-    restart: always
+  carrito:
+    build: ./carrito
+    container_name: carrito_service
     ports:
       - "3003:3000"
+    depends_on:
+      - postgres
     environment:
-      - DB_HOST=db-pagos
-      - DB_PORT=5432
-      - DB_USER=postgres
-      - DB_PASSWOR_
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_NAME: ecommerce_db
+    networks:
+      - ecommerce_net
+
+  pedido:
+    build: ./pedido
+    container_name: pedido_service
+    ports:
+      - "3004:3000"
+    depends_on:
+      - postgres
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_NAME: ecommerce_db
+    networks:
+      - ecommerce_net
+
+  productos:
+    build: ./productos
+    container_name: productos_service
+    ports:
+      - "3005:3000"
+    depends_on:
+      - postgres
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_NAME: ecommerce_db
+    networks:
+      - ecommerce_net
+
+networks:
+  ecommerce_net:
+
+volumes:
+  postgres_data:
+
