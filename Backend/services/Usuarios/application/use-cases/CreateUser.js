@@ -1,17 +1,32 @@
-const ConnectionFactory = require('../../infrastructure/databases/ConnectionFactory');
 const User = require('../../domain/entities/User');
+const UserRepository = require('../../infrastructure/repositories/UserRepositoryImpl');
 
 class CreateUser {
-  static async execute({ nombre, email, password, direccion }) {
-    const q = `
-      INSERT INTO usuarios (nombre, email, password, direccion)
-      VALUES ($1, $2, $3, $4)
-      RETURNING id, nombre, email, direccion
-    `;
-    const values = [nombre, email, password, direccion];
-    const result = await ConnectionFactory.query(q, values);
-    const row = result.rows[0];
-    return new User(row.id, row.nombre, row.email, null, row.direccion);
+  constructor(userRepository = new UserRepository()) {
+    this.userRepository = userRepository;
+  }
+
+  async execute({ nombre, email, password, rol = 'user' }) {
+    try {
+      // Verificar si ya existe un usuario con ese email
+      const existingUser = await this.userRepository.findByEmail(email);
+      if (existingUser) {
+        throw new Error('Ya existe un usuario con ese email');
+      }
+
+      // Crear instancia de usuario con validaciones
+      const user = new User(null, nombre, email, password, rol);
+      user.validate();
+
+      // Guardar en el repositorio
+      const createdUser = await this.userRepository.create(user);
+
+      // Retornar usuario sin password por seguridad
+      const { password: _, ...userWithoutPassword } = createdUser;
+      return userWithoutPassword;
+    } catch (error) {
+      throw new Error(`Error al crear usuario: ${error.message}`);
+    }
   }
 }
 
