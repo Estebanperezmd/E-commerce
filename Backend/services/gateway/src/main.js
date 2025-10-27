@@ -1,21 +1,10 @@
-import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module.js';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+const express = require('express');
+const bodyParser = require('body-parser');
+const gatewayRoutes = require('./gateway.controller');
 
-async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+const app = express();
+app.use(bodyParser.json());
+app.use('/', gatewayRoutes);
 
-  const config = new DocumentBuilder()
-    .setTitle('API Gateway E-commerce')
-    .setDescription('Gateway para microservicios: Pagos, Usuarios, Carrito, Pedido, Productos')
-    .setVersion('1.0')
-    .build();
-
-  const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document);
-
-  await app.listen(3000);
-  console.log('🚀 API Gateway corriendo en http://localhost:3000');
-}
-
-bootstrap();
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`🚀 Gateway corriendo en puerto ${PORT}`));

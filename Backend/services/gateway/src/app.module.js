@@ -1,9 +1,11 @@
-import { Module } from '@nestjs/common';
-import { HttpModule } from '@nestjs/axios';
-import { GatewayController } from './gateway.controller.js';
+const { Module } = require('@nestjs/common');
+const { HttpModule } = require('@nestjs/axios');
+const { GatewayController } = require('./gateway.controller');
 
 Module({
   imports: [HttpModule],
   controllers: [GatewayController],
 })
-export class AppModule {}
+class AppModule {}
+
+module.exports = { AppModule };

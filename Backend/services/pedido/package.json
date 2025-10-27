@@ -4,8 +4,8 @@
   "description": "Microservicio de Pedidos - E-commerce",
   
   "scripts": {
-    "start": "node src/main.js",
-    "start:dev": "nodemon src/main.js"
+    "start": "node main.js",
+    "start:dev": "nodemon main.js"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",

@@ -3,24 +3,15 @@ const UserController = require('../controllers/UserController');
 const AuthMiddleware = require('../middleware/AuthMiddleware');
 
 const router = Router();
-
+const userController = new UserController(); 
 // Rutas públicas
-router.post('/register', UserController.create);
-router.post('/login', UserController.login);
+router.post('/register', (req, res) => userController.create(req, res));
+router.post('/login', (req, res) => userController.login(req, res));
 
 // Rutas protegidas
-router.get('/profile', AuthMiddleware, UserController.getProfile);
-router.put('/profile', AuthMiddleware, UserController.updateProfile);
-router.get('/:id', AuthMiddleware, UserController.findById);
-router.delete('/:id', AuthMiddleware, UserController.delete);
-// // Rutas públicas
-// router.post('/register', UserController.create);
-// router.post('/login', UserController.login);
-
-// // Rutas protegidas
-// router.get('/profile', authMiddleware, UserController.getProfile);
-// router.put('/profile', authMiddleware, UserController.updateProfile);
-// router.get('/:id', authMiddleware, UserController.findById);
-// router.delete('/:id', authMiddleware, UserController.delete);
+router.get('/profile', AuthMiddleware, (req, res) => userController.getProfile(req, res));
+router.put('/profile', AuthMiddleware, (req, res) => userController.updateProfile(req, res));
+router.get('/:id', AuthMiddleware, (req, res) => userController.findById(req, res));
+router.delete('/:id', AuthMiddleware, (req, res) => userController.delete(req, res));
 
 module.exports = router;

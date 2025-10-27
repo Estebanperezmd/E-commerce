@@ -1,27 +1,34 @@
-import { Controller, Get, Post, Body, Param } from '@nestjs/common';
-import { HttpService } from '@nestjs/axios';
+const express = require('express');
+const axios = require('axios');
 
-@Controller()
-export class GatewayController {
-  constructor(private readonly httpService) {}
+const router = express.Router();
 
-  // Redirigir solicitudes al microservicio de pagos
-  @Get('pagos')
-  async getPagos() {
-    const response = await this.httpService.axiosRef.get('http://pagos:3000/pagos');
-    return response.data;
+// Rutas simples hacia los microservicios
+router.get('/pagos', async (req, res) => {
+  try {
+    const response = await axios.get('http://localhost:3001/pagos');
+    res.json(response.data);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
+});
 
-  @Post('pagos')
-  async crearPago(@Body() body) {
-    const response = await this.httpService.axiosRef.post('http://pagos:3000/pagos', body);
-    return response.data;
+router.post('/pagos', async (req, res) => {
+  try {
+    const response = await axios.post('http://localhost:3001/pagos', req.body);
+    res.json(response.data);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
+});
 
-  // Ejemplo con usuarios
-  @Get('usuarios')
-  async getUsuarios() {
-    const response = await this.httpService.axiosRef.get('http://usuarios:3001/usuarios');
-    return response.data;
+router.get('/usuarios', async (req, res) => {
+  try {
+    const response = await axios.get('http://localhost:3002/usuarios');
+    res.json(response.data);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
-}
+});
+
+module.exports = router;

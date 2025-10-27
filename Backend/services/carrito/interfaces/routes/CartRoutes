@@ -1,0 +1,10 @@
+const { Router } = require('express');
+const CartController = require('../controllers/CartController');
+
+const router = Router();
+
+// Define tus rutas REST del microservicio carrito
+router.post('/', CartController.addProduct);
+router.get('/:idUsuario', CartController.getCartByUser);
+
+module.exports = router;
