@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import "./Sidebar.css";
 
 
 export default function Sidebar({ isOpen, onClose }) {
