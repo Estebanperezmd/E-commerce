@@ -5,14 +5,17 @@ const ProductController = require('../controllers/ProductController');
 
 const router = Router();
 
-// Rutas públicas
-router.get('/', ProductController.findAll);
-router.get('/:id', ProductController.findById);
+// Crear instancia del controlador
+const controller = new ProductController();
 
-// // Rutas protegidas (solo admin)
-// router.post('/', [authMiddleware, adminMiddleware], ProductController.create);
-// router.put('/:id', [authMiddleware, adminMiddleware], ProductController.update);
-// router.patch('/:id/stock', [authMiddleware, adminMiddleware], ProductController.updateStock);
-// router.delete('/:id', [authMiddleware, adminMiddleware], ProductController.delete);
+// Rutas públicas
+router.get('/', controller.getAllProducts.bind(controller));
+router.get('/:id', controller.getProduct.bind(controller));
+
+// // Rutas protegidas (solo admin) - cuando las uses, ojo con los nombres de los middlewares
+// router.post('/', [AuthMiddleware, AdminMiddleware], controller.createProduct.bind(controller));
+// router.put('/:id', [AuthMiddleware, AdminMiddleware], controller.updateProduct.bind(controller));
+// router.patch('/:id/stock', [AuthMiddleware, AdminMiddleware], controller.updateStock.bind(controller));
+// router.delete('/:id', [AuthMiddleware, AdminMiddleware], controller.deleteProduct.bind(controller));
 
 module.exports = router;

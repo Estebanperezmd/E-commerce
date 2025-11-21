@@ -1,0 +1,67 @@
+.payment-page {
+  padding: 1.5rem 2rem;
+}
+
+.payment-list {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.payment-item {
+  background: #ffffff;
+  border-radius: 0.9rem;
+  padding: 0.8rem 1rem;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.12);
+  display: flex;
+  justify-content: space-between;
+}
+
+.payment-item__restaurant {
+  font-size: 0.85rem;
+  color: #6b7280;
+}
+
+.payment-item__meta {
+  font-size: 0.8rem;
+  color: #4b5563;
+}
+
+.payment-item__subtotal {
+  font-weight: 600;
+}
+
+.payment-summary {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.payment-confirm {
+  border: none;
+  background: #16a34a;
+  color: white;
+  padding: 0.4rem 0.9rem;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.payment-confirm:hover {
+  background: #15803d;
+}
+.back-button {
+  border: none;
+  background: none;
+  font-size: 1rem;
+  cursor: pointer;
+  color: #2563eb;
+  margin-bottom: 1rem;
+}
+
+.back-button:hover {
+  text-decoration: underline;
+}

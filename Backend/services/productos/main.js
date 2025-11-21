@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const { initDatabase } = require('./infrastructure/databases/ConnectionFactory');
