@@ -37,19 +37,27 @@ class ProductController {
 
   async getAllProducts(req, res) {
     try {
-      const filters = {
-        categoria: req.query.categoria,
-        precioMin: req.query.precioMin ? parseFloat(req.query.precioMin) : undefined,
-        precioMax: req.query.precioMax ? parseFloat(req.query.precioMax) : undefined,
-        stockMin: req.query.stockMin ? parseInt(req.query.stockMin) : undefined
-      };
+      // restaurantId vendrá de /productos?restaurantId=1 (para el front)
+      const restaurantId = req.query.restaurantId
+        ? Number(req.query.restaurantId)
+        : undefined;
 
-      const products = await this.productRepository.findAll(filters);
-      res.json(products.map(product => ProductDTO.toDTO(product)));
+      const products = await this.productRepository.findAll({ restaurantId });
+
+      // Si quieres seguir usando DTO:
+      // const dtoList = products.map((p) => ProductDTO.toDTO(p));
+      // return res.json(dtoList);
+
+      // Para simplificar al máximo:
+      return res.json(products);
     } catch (error) {
-      res.status(500).json({ error: error.message });
+      console.error('Error en getAllProducts:', error);
+      res
+        .status(500)
+        .json({ error: 'Error al buscar productos: ' + error.message });
     }
   }
+
 
   async updateProduct(req, res) {
     try {

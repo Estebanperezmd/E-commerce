@@ -1,6 +1,5 @@
 const { DataSource } = require('typeorm');
-const { databaseConfig } = require('./DatabaseConfig.js'); 
-
+const { databaseConfig } = require('./DatabaseConfig.js');
 
 const AppDataSource = new DataSource(databaseConfig);
 
@@ -16,4 +15,12 @@ const initDatabase = async () => {
   }
 };
 
-module.exports = { AppDataSource, initDatabase };
+// 👇 NUEVO: helper para ejecutar consultas crudas
+const query = async (sql, params = []) => {
+  if (!AppDataSource.isInitialized) {
+    await initDatabase();
+  }
+  return AppDataSource.query(sql, params);
+};
+
+module.exports = { AppDataSource, initDatabase, query };

@@ -1,5 +1,7 @@
 // productos/infrastructure/databases/DatabaseConfig.js
 
+require('dotenv').config(); // 👈 Esto es lo que faltaba
+
 const { Producto } = require('../../domain/entities/Product.js');
 
 console.log('DB CONFIG PRODUCTOS', {
@@ -10,7 +12,6 @@ console.log('DB CONFIG PRODUCTOS', {
   name: process.env.DB_NAME,
 });
 
-
 const databaseConfig = {
   type: 'postgres',
   host: process.env.DB_HOST || 'localhost',
@@ -19,7 +20,7 @@ const databaseConfig = {
   password: process.env.DB_PASSWORD || 'postgres',
   database: process.env.DB_NAME || 'ecommerce',
   entities: [Producto],
-  synchronize: true, // Solo para desarrollo
+  synchronize: true,
 };
 
 module.exports = { databaseConfig };

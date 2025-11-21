@@ -2,5 +2,5 @@
 //
 // @param {CityRepository} cityRepository
 export async function listCities(cityRepository) {
-  return cityRepository.listCities();
+  return cityRepository.listAll();
 }
