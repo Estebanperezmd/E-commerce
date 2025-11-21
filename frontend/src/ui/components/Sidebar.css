@@ -11,7 +11,7 @@
 .sidebar {
   position: fixed;
   top: 0;
-  left: -260px;          /* oculto por defecto */
+  right: -260px;          /* oculto por defecto */
   width: 260px;
   height: 100vh;
   background: #ffffff;
