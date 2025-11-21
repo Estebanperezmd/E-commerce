@@ -1,0 +1,520 @@
+{
+  "cities": [
+    {
+      "city": "toronto",
+      "restaurants": [
+        {
+          "restaurant_name": "Starbucks (Bedford Bloor)",
+          "restaurant_url": "https://www.ubereats.com/ca/store/starbucks-bedford-bloor/6-18OYmRTI6Ws7Soz-Y4gQ",
+          "products": [
+            {
+              "name": "Caffè Latte",
+              "price": "$5.85"
+            },
+            {
+              "name": "Egg White & Roasted Red Pepper Egg Bites",
+              "price": "$6.95"
+            },
+            {
+              "name": "Crispy Grilled Cheese on Sourdough",
+              "price": "$7.95"
+            }
+          ]
+        },
+        {
+          "restaurant_name": "Tim Hortons (375 King Street West)",
+          "restaurant_url": "https://www.ubereats.com/ca/store/tim-hortons-375-king-street-west/fra0DDbERXmVMHeW3UxqZw",
+          "products": [
+            {
+              "name": "Original Protein Iced Latte",
+              "price": "$5.19"
+            },
+            {
+              "name": "Mango Starfruit Infusr™ Energy Drink",
+              "price": "$4.39"
+            },
+            {
+              "name": "Original Iced Latte",
+              "price": "$4.19"
+            }
+          ]
+        },
+        {
+          "restaurant_name": "Pizza Pizza (Church & Wellesley)",
+          "restaurant_url": "https://www.ubereats.com/ca/store/pizza-pizza-church-%26-wellesley/BXhFbrPASRir5GpSbMY2JQ",
+          "products": [
+            {
+              "name": "Large",
+              "price": "$15.99"
+            },
+            {
+              "name": "Medium",
+              "price": "$12.29"
+            },
+            {
+              "name": "10 Wings",
+              "price": "$17.19"
+            }
+          ]
+        },
+        {
+          "restaurant_name": "Pizza Pizza (Church & Wellington)",
+          "restaurant_url": "https://www.ubereats.com/ca/store/pizza-pizza-church-%26-wellington/3nGkl-qpSnewPdDtI-Xz-w",
+          "products": [
+            {
+              "name": "Large",
+              "price": "$15.99"
+            },
+            {
+              "name": "Single Pizza (Medium) + Dipping Sauce",
+              "price": "$13.88"
+            },
+            {
+              "name": "Medium",
+              "price": "$12.29"
+            }
+          ]
+        },
+        {
+          "restaurant_name": "Burger King (The Exchange Tower)",
+          "restaurant_url": "https://www.ubereats.com/ca/store/burger-king-the-exchange-tower/q7Wl1EPmQsaYTHJ1ltcU2A",
+          "products": [
+            {
+              "name": "Whopper® Jr.",
+              "price": "$5.69"
+            },
+            {
+              "name": "Spicy Crispy Chicken Sandwich Meals",
+              "price": "$15.09"
+            },
+            {
+              "name": "Whopper®",
+              "price": "$9.69"
+            }
+          ]
+        },
+        {
+          "restaurant_name": "Wendy's (110 Blue Jays Way)",
+          "restaurant_url": "https://www.ubereats.com/ca/store/wendys-110-blue-jays-way/m-QadXkBX4K6B6xKTxMixA",
+          "products": [
+            {
+              "name": "Baconator® with Cheese (Cals: 970)",
+              "price": "$12.21"
+            },
+            {
+              "name": "5-Piece Chicken Strips (Cals: 640)",
+              "price": "$13.30"
+            },
+            {
+              "name": "Spicy Chicken Sandwich (Cals: 450)",
+              "price": "$10.15"
+            }
+          ]
+        },
+        {
+          "restaurant_name": "Wendy's (615 Dundas Street East, Regent Park)",
+          "restaurant_url": "https://www.ubereats.com/ca/store/wendys-615-dundas-street-east-regent-park/zAdG41bDRMeIM6epksh3aw",
+          "products": [
+            {
+              "name": "Spicy Chicken Sandwich (Cals: 450)",
+              "price": "$10.15"
+            },
+            {
+              "name": "Baconator® with Cheese (Cals: 970)",
+              "price": "$12.21"
+            },
+            {
+              "name": "5-Piece Chicken Strips (Cals: 640)",
+              "price": "$13.30"
+            }
+          ]
+        },
+        {
+          "restaurant_name": "McDonald's (Yonge & Elm)",
+          "restaurant_url": "https://www.ubereats.com/ca/store/mcdonalds-yonge-%26-elm/pprgsJgLR5WfQtzZ9GAnug",
+          "products": [
+            {
+              "name": "6 Chicken McNuggets [290-360 Cals]",
+              "price": "$9.69"
+            },
+            {
+              "name": "Big Mac [560.0 Cals]",
+              "price": "$10.29"
+            },
+            {
+              "name": "Med Fries [350.0 Cals]",
+              "price": "$5.69"
+            }
+          ]
+        },
+        {
+          "restaurant_name": "Starbucks (Bloor & Jarvis)",
+          "restaurant_url": "https://www.ubereats.com/ca/store/starbucks-bloor-%26-jarvis/T9vIDBQVTLGKnrqbyLN9mw",
+          "products": [
+            {
+              "name": "Double-Smoked Bacon, Cheddar & Egg Sandwich",
+              "price": "$7.35"
+            },
+            {
+              "name": "Iced Brown Sugar Oat Shaken Espresso",
+              "price": "$7.35"
+            },
+            {
+              "name": "Iced Matcha Tea Latte",
+              "price": "$6.85"
+            }
+          ]
+        }
+      ],
+      "count": 9,
+      "success_rate": "9/9",
+      "processed_at": "2025-11-19T19:47:02.214992"
+    },
+    {
+      "city": "kingston",
+      "restaurants": [
+        {
+          "restaurant_name": "Tim Hortons (29 Niagara Park Dr)",
+          "restaurant_url": "https://www.ubereats.com/ca/store/tim-hortons-29-niagara-park-dr/gdHiPiBEVfacKV2q86V3Gg",
+          "products": [
+            {
+              "name": "Original Iced Capp®",
+              "price": "$3.99"
+            },
+            {
+              "name": "20 Timbits® Multi-Pack",
+              "price": "$6.39"
+            },
+            {
+              "name": "French Vanilla",
+              "price": "$3.49"
+            }
+          ]
+        },
+        {
+          "restaurant_name": "McDonald's (Kingston",
+          "restaurant_url": "https://www.ubereats.com/ca/store/mcdonalds-kingston-312-princess/xz8AH0-9SiC_Di8lwWeyFA",
+          "products": [
+            {
+              "name": "6 Chicken McNuggets [290-360 Cals]",
+              "price": "$8.29"
+            },
+            {
+              "name": "Med Fries [350.0 Cals]",
+              "price": "$5.59"
+            },
+            {
+              "name": "McDouble [380.0 Cals]",
+              "price": "$4.79"
+            }
+          ]
+        },
+        {
+          "restaurant_name": "Starbucks (121 Division Street)",
+          "restaurant_url": "https://www.ubereats.com/ca/store/starbucks-121-division-street/s0mMU4eiWTC1WgLN-CRZFQ",
+          "products": [
+            {
+              "name": "Double-Smoked Bacon, Cheddar & Egg Sandwich",
+              "price": "$7.35"
+            },
+            {
+              "name": "Crispy Grilled Cheese on Sourdough",
+              "price": "$7.75"
+            },
+            {
+              "name": "Iced Matcha Tea Latte",
+              "price": "$6.85"
+            }
+          ]
+        },
+        {
+          "restaurant_name": "Pizza Pizza (760 Kingston 15)",
+          "restaurant_url": "https://www.ubereats.com/ca/store/pizza-pizza-760-kingston-15/bd_N8bK9RS666JJgEUumjQ",
+          "products": [
+            {
+              "name": "Large",
+              "price": "$15.99"
+            },
+            {
+              "name": "Medium",
+              "price": "$12.29"
+            },
+            {
+              "name": "Large Pepperoni",
+              "price": "$18.94"
+            }
+          ]
+        },
+        {
+          "restaurant_name": "Starbucks (Highway 15 & Rose Abbey Drive)",
+          "restaurant_url": "https://www.ubereats.com/ca/store/starbucks-highway-15-%26-rose-abbey-drive/2ZTyykh7QGSg_G6vAD7s5w",
+          "products": [
+            {
+              "name": "Cappuccino",
+              "price": "$5.65"
+            },
+            {
+              "name": "Double-Smoked Bacon, Cheddar & Egg Sandwich",
+              "price": "$7.35"
+            },
+            {
+              "name": "Everything Croissant & Roasted Ham Sandwich",
+              "price": "$7.35"
+            }
+          ]
+        },
+        {
+          "restaurant_name": "Subway (3-841 Highway 15)",
+          "restaurant_url": "https://www.ubereats.com/ca/store/subway-3-841-highway-15/vMwtwkozQjqUShh01WBp7Q",
+          "products": [
+            {
+              "name": "Red Velvet Cookie",
+              "price": "$30.00"
+            },
+            {
+              "name": "Cold Cut Combo (Footlong)",
+              "price": "$11.79"
+            },
+            {
+              "name": "Italian B.M.T.® (Footlong)",
+              "price": "$13.09"
+            }
+          ]
+        },
+        {
+          "restaurant_name": "Subway (Portsmouth)",
+          "restaurant_url": "https://www.ubereats.com/ca/store/subway-portsmouth/csdu6sVkQWKwn5xWqHPJ7A",
+          "products": [
+            {
+              "name": "Turkey Breast",
+              "price": "$13.96"
+            },
+            {
+              "name": "Steak & Cheese",
+              "price": "$9.69"
+            },
+            {
+              "name": "Meatball Marinara",
+              "price": "$7.99"
+            }
+          ]
+        },
+        {
+          "restaurant_name": "Wendy's (17 Warne Crescent)",
+          "restaurant_url": "https://www.ubereats.com/ca/store/wendys-17-warne-crescent/AUaXCLW6QjGDp0ddBIqpqw",
+          "products": [
+            {
+              "name": "10-Piece Crispy Chicken Nuggets (Cals: 410)",
+              "price": "$9.30"
+            },
+            {
+              "name": "Baconator® with Cheese (Cals: 970)",
+              "price": "$11.97"
+            },
+            {
+              "name": "6-Piece Crispy Chicken Nuggets (Cals: 190)",
+              "price": "$4.46"
+            }
+          ]
+        },
+        {
+          "restaurant_name": "Uber Eats: Food Delivery",
+          "restaurant_url": "https://play.google.com/store/apps/details?id=com.ubercab.eats",
+          "products": [
+            {
+              "name": "Main Course",
+              "price": "$12.99"
+            },
+            {
+              "name": "Specialty Dish",
+              "price": "$15.99"
+            },
+            {
+              "name": "Side Dish",
+              "price": "$5.99"
+            }
+          ]
+        }
+      ],
+      "count": 9,
+      "success_rate": "9/9",
+      "processed_at": "2025-11-19T19:55:28.747608"
+    },
+    {
+      "city": "hamilton",
+      "restaurants": [
+        {
+          "restaurant_name": "Subway (155 John St S)",
+          "restaurant_url": "https://www.ubereats.com/ca/store/subway-155-john-st-s/irDDo-_VQU2z3AzZn2wS_w",
+          "products": [
+            {
+              "name": "Steak & Cheese (Footlong)",
+              "price": "$16.79"
+            },
+            {
+              "name": "Cold Cut Combo (6'')",
+              "price": "$8.24"
+            },
+            {
+              "name": "Sweet Onion Chicken Teriyaki (Footlong)",
+              "price": "$15.68"
+            }
+          ]
+        },
+        {
+          "restaurant_name": "Burger King (743 Upper James St)",
+          "restaurant_url": "https://www.ubereats.com/ca/store/burger-king-743-upper-james-st/YfjmPyHzUcat8tYw739snw",
+          "products": [
+            {
+              "name": "Whopper® Jr.",
+              "price": "$5.69"
+            },
+            {
+              "name": "Whopper® Meals",
+              "price": "$15.59"
+            },
+            {
+              "name": "Whopper®",
+              "price": "$9.69"
+            }
+          ]
+        },
+        {
+          "restaurant_name": "Starbucks (112 King Street East)",
+          "restaurant_url": "https://www.ubereats.com/ca/store/starbucks-112-king-street-east/0RKjIXToTbi6oo7f3JAKGw",
+          "products": [
+            {
+              "name": "Double-Smoked Bacon, Cheddar & Egg Sandwich",
+              "price": "$7.35"
+            },
+            {
+              "name": "Iced Caramel Macchiato",
+              "price": "$6.75"
+            },
+            {
+              "name": "Pumpkin Spice Latte",
+              "price": "$6.85"
+            }
+          ]
+        },
+        {
+          "restaurant_name": "Burger King (CF Limeridge Mall Food court",
+          "restaurant_url": "https://www.ubereats.com/ca/store/burger-king-cf-limeridge-mall-food-court-f112b/OsKdbNJuUaSZY15o_SrSMA",
+          "products": [
+            {
+              "name": "Whopper® Meals",
+              "price": "$15.60"
+            },
+            {
+              "name": "Whopper® Jr.",
+              "price": "$5.67"
+            },
+            {
+              "name": "Double Whopper® Meals",
+              "price": "$18.02"
+            }
+          ]
+        },
+        {
+          "restaurant_name": "Pizza Pizza (1296 King Street E.)",
+          "restaurant_url": "https://www.ubereats.com/ca/store/pizza-pizza-1296-king-street-e/fcEVi4fnRECkiXYjjX0FgQ",
+          "products": [
+            {
+              "name": "Medium",
+              "price": "$14.29"
+            },
+            {
+              "name": "Create Your Own Panzerotti",
+              "price": "$12.49"
+            },
+            {
+              "name": "Small",
+              "price": "$11.89"
+            }
+          ]
+        },
+        {
+          "restaurant_name": "Wendy's (1550 Upper James Street)",
+          "restaurant_url": "https://www.ubereats.com/ca/store/wendys-1550-upper-james-street/Hku37nAlTlupoIoP104ONw",
+          "products": [
+            {
+              "name": "Spicy Chicken Sandwich (Cals: 450)",
+              "price": "$10.03"
+            },
+            {
+              "name": "Baconator® with Cheese (Cals: 970)",
+              "price": "$12.09"
+            },
+            {
+              "name": "5-Piece Chicken Strips (Cals: 640)",
+              "price": "$13.18"
+            }
+          ]
+        },
+        {
+          "restaurant_name": "Starbucks (Locke & Chatham)",
+          "restaurant_url": "https://www.ubereats.com/ca/store/starbucks-locke-%26-chatham/GcnyZb9FQl6veshgnsZXsg",
+          "products": [
+            {
+              "name": "Everything Croissant & Roasted Ham Sandwich",
+              "price": "$7.35"
+            },
+            {
+              "name": "Double-Smoked Bacon, Cheddar & Egg Sandwich",
+              "price": "$7.35"
+            },
+            {
+              "name": "Caramel Macchiato",
+              "price": "$6.05"
+            }
+          ]
+        },
+        {
+          "restaurant_name": "Uber Eats: Food Delivery",
+          "restaurant_url": "https://play.google.com/store/apps/details?id=com.ubercab.eats",
+          "products": [
+            {
+              "name": "Main Course",
+              "price": "$12.99"
+            },
+            {
+              "name": "Specialty Dish",
+              "price": "$15.99"
+            },
+            {
+              "name": "Side Dish",
+              "price": "$5.99"
+            }
+          ]
+        },
+        {
+          "restaurant_name": "McDonald's (675 Upper James Street)",
+          "restaurant_url": "https://www.ubereats.com/ca/store/mcdonalds-675-upper-james-street/1blEfYbNQwWQOZ_yQ-CJLg",
+          "products": [
+            {
+              "name": "Med Fries [350.0 Cals]",
+              "price": "$5.59"
+            },
+            {
+              "name": "McDouble [380.0 Cals]",
+              "price": "$4.69"
+            },
+            {
+              "name": "10 Chicken McNuggets [490-630 Cals]",
+              "price": "$11.59"
+            }
+          ]
+        }
+      ],
+      "count": 9,
+      "success_rate": "9/9",
+      "processed_at": "2025-11-19T20:04:10.853626"
+    }
+  ],
+  "metadata": {
+    "scraping_date": "2025-11-19T19:37:54.685674",
+    "cities_processed": 3,
+    "restaurants_per_city": 3,
+    "data_source": "uber_eats_brand_pages"
+  }
+}
