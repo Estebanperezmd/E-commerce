@@ -74,3 +74,26 @@
 .back-button:hover {
   text-decoration: underline;
 }
+
+.added-prompt {
+  position: fixed;
+  top: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #3a6cf6;
+  color: #fff;
+  padding: 0.8em 1.6em;
+  border-radius: 10px;
+  font-size: 1.1em;
+  font-weight: 500;
+  box-shadow: 0 2px 12px rgba(10,23,51,0.18);
+  z-index: 3000;
+  animation: fadeInOut 5s;
+}
+
+@keyframes fadeInOut {
+  0% { opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { opacity: 0; }
+}
