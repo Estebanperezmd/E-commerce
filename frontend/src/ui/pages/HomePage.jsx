@@ -15,6 +15,8 @@ export default function HomePage() {
   const [loadingRestaurants, setLoadingRestaurants] = useState(false);
   const [error, setError] = useState("");
 
+  const [search, setSearch] = useState("");
+
   // Cargar ciudades
   useEffect(() => {
     const loadCities = async () => {
@@ -73,9 +75,16 @@ export default function HomePage() {
       <input
         type="text"
         className="home__search"
-        placeholder="Buscar (no implementado aún)"
+        placeholder="Buscar restaurante..."
+        value={search}
+        onChange={e => setSearch(e.target.value)}
       />
     </>
+  );
+
+  // Filtrar restaurantes por búsqueda
+  const filteredRestaurants = restaurants.filter(r =>
+    r.name.toLowerCase().includes(search.toLowerCase())
   );
 
   return (
@@ -92,7 +101,7 @@ export default function HomePage() {
         </h2>
 
         <div className="restaurant-grid">
-          {restaurants.map((r) => (
+          {filteredRestaurants.map((r) => (
             <Link
               key={r.id}
               to={`/restaurant/${r.id}`}
@@ -102,7 +111,7 @@ export default function HomePage() {
             </Link>
           ))}
 
-          {restaurants.length === 0 && !loadingRestaurants && (
+          {filteredRestaurants.length === 0 && !loadingRestaurants && (
             <p>No hay restaurantes para esta ciudad.</p>
           )}
         </div>
