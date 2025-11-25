@@ -99,7 +99,6 @@ export default function HomePage() {
               className="restaurant-card"
             >
               <h3>{r.name}</h3>
-              <p>Ciudad #{r.cityId}</p>
             </Link>
           ))}
 
