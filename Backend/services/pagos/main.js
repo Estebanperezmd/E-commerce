@@ -9,7 +9,7 @@ app.use(bodyParser.json());
 // rutas del microservicio pagos
 app.use('/pagos', pagoRoutes);
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3006;
 app.listen(PORT, async () => {
   await initDatabase();
   console.log(`💰 Microservicio Pagos corriendo en puerto ${PORT}`);

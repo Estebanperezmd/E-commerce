@@ -6,7 +6,7 @@ import { useState } from "react";
 import { useAuth } from "../../app/AuthContext";   // 👈 NUEVO
 
 // Usa la URL pública de ngrok para producción
-const PEDIDOS_BASE_URL = "https://leda-proalien-kiersten.ngrok-free.dev";
+const PEDIDOS_BASE_URL = "https://leda-proalien-kiersten.ngrok-free.dev"; // pagos (3006)
 
 export default function PaymentPage() {
   const { items, selectedTotal, clearCart } = useCart();

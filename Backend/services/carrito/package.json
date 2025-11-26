@@ -2,10 +2,9 @@
   "name": "carrito-service",
   "version": "1.0.0",
   "description": "Microservicio de Carrito - E-commerce",
- 
   "scripts": {
-    "start": "node src/main.js",
-    "start:dev": "nodemon src/main.js"
+    "start": "node main.js",
+    "start:dev": "nodemon main.js"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
@@ -16,7 +15,7 @@
     "pg": "^8.11.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.1",
-    "typeorm": "^0.3.20"
+    "typeorm": "^0.3.27"
   },
   "devDependencies": {
     "nodemon": "^3.0.3"
