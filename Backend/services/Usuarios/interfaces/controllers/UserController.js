@@ -83,7 +83,8 @@ router.post("/login", async (req, res) => {
     });
   } catch (error) {
     console.error("Error en login:", error);
-    res.status(500).json({ error: "Error interno del servidor" });
+    if (error.stack) console.error(error.stack);
+    res.status(500).json({ error: "Error interno del servidor", detalle: error.message });
   }
 });
 

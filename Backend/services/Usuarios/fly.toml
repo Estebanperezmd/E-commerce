@@ -1,0 +1,31 @@
+app = "usuarios-service"
+primary_region = "iad"
+
+[build]
+  # No build step needed for JS
+
+[env]
+  PORT = "3002"
+
+[[services]]
+  internal_port = 3002
+  protocol = "tcp"
+
+  [services.concurrency]
+    hard_limit = 25
+    soft_limit = 20
+    type = "connections"
+
+  [[services.ports]]
+    handlers = ["http"]
+    port = 80
+
+  [[services.ports]]
+    handlers = ["tls", "http"]
+    port = 443
+
+  [[services.tcp_checks]]
+    interval = 10000
+    timeout = 2000
+    grace_period = "1s"
+    restart_limit = 6

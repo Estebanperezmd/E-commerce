@@ -4,7 +4,7 @@ const AUTH_STORAGE_KEY = "currentUser";
 
 export class AuthRepositoryHttp {
   constructor(baseUrl) {
-    this.baseUrl = baseUrl; // ej: https://leda-proalien-kiersten.ngrok-free.dev (usuarios)
+    this.baseUrl = baseUrl; // ej: https://thin-falcons-wonder.loca.lt (usuarios)
   }
 
   /**

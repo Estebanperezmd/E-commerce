@@ -8,11 +8,11 @@ class CartController {
       const { id_usuario, id_producto, cantidad } = req.body;
 
       // Validar existencia del usuario (ngrok)
-      const userResponse = await axios.get(`https://leda-proalien-kiersten.ngrok-free.dev/usuarios/${id_usuario}`);
+      const userResponse = await axios.get(`https://thin-falcons-wonder.loca.lt/usuarios/${id_usuario}`);
       if (!userResponse.data) return res.status(404).json({ message: 'Usuario no encontrado' });
 
       // Validar existencia del producto (ngrok)
-      const productResponse = await axios.get(`https://leda-proalien-kiersten.ngrok-free.dev/productos/${id_producto}`);
+      const productResponse = await axios.get(`https://fresh-zebras-yawn.loca.lt/productos/${id_producto}`);
       if (!productResponse.data) return res.status(404).json({ message: 'Producto no encontrado' });
 
       // Insertar producto en carrito

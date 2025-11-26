@@ -5,22 +5,27 @@ const Usuario = require('../../domain/entities/Usuario');
 
 class UsuarioRepository {
   async findAll() {
-    const dataSource = await getConnection();
-
-    // OJO: usamos la tabla "Usuarios" y alias para que cuadre con la entidad
-    const query = `
-      SELECT
-        id,
-        users    AS nombre,
-        email    AS correo,
-        password AS contraseña
-      FROM "Usuarios"
-    `;
-    const rows = await dataSource.query(query);
-
-    return rows.map(
-      (row) => new Usuario(row.id, row.nombre, row.correo, row.contraseña)
-    );
+    try {
+      const dataSource = await getConnection();
+      console.log("[UsuarioRepository] Conexión obtenida");
+      const query = `
+        SELECT
+          id,
+          users    AS nombre,
+          email    AS correo,
+          password AS contraseña
+        FROM "Usuarios"
+      `;
+      console.log("[UsuarioRepository] Ejecutando query:", query);
+      const rows = await dataSource.query(query);
+      console.log("[UsuarioRepository] Resultado de query:", rows);
+      return rows.map(
+        (row) => new Usuario(row.id, row.nombre, row.correo, row.contraseña)
+      );
+    } catch (error) {
+      console.error("[UsuarioRepository] Error en findAll:", error);
+      throw error;
+    }
   }
 
   async findById(id) {

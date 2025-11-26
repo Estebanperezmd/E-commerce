@@ -3,6 +3,7 @@ const axios = require('axios');
 class ProductServiceClient {
   constructor() {
     this.baseURL = process.env.PRODUCTOS_SERVICE_URL || 'http://localhost:3001';
+    this.baseURL = process.env.PRODUCTOS_SERVICE_URL || 'https://fresh-zebras-yawn.loca.lt';
   }
 
   async findProductById(id) {

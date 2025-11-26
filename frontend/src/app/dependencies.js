@@ -7,9 +7,9 @@ import { AuthRepositoryHttp } from "../infrastructure/repositories/AuthRepositor
 
 
 // Usa la URL pública de ngrok para producción
-const USUARIOS_BASE_URL = "https://leda-proalien-kiersten.ngrok-free.dev"; // usuarios (3002, ngrok)
-const CATALOGO_BASE_URL = "https://leda-proalien-kiersten.ngrok-free.dev"; // productos (3005)
-const PAGOS_BASE_URL = "https://leda-proalien-kiersten.ngrok-free.dev"; // pagos (3006)
+const USUARIOS_BASE_URL = "https://thin-falcons-wonder.loca.lt"; // usuarios (3002, LocalTunnel)
+const CATALOGO_BASE_URL = "https://fresh-zebras-yawn.loca.lt"; // productos (3005, LocalTunnel)
+const PAGOS_BASE_URL = "https://deep-chairs-melt.loca.lt"; // pagos (3006, LocalTunnel)
 
 export const repositories = {
   authRepository: new AuthRepositoryHttp(USUARIOS_BASE_URL),
