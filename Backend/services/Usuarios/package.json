@@ -3,9 +3,8 @@
   "version": "1.0.0",
   "description": "Microservicio de Usuarios - E-commerce",
   "scripts": {
-    "build": "tsc",
-    "start": "node dist/main.js",
-    "start:dev": "nodemon src/main.ts"
+    "start": "node main.js",
+    "start:dev": "nodemon main.js"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
