@@ -9,14 +9,14 @@ export class AuthRepositoryHttp {
 
   /**
    * Inicia sesión contra el micro de usuarios.
-   * @param {string} email
+   * @param {string} emailOrUsername
    * @param {string} password
    */
-  async login(email, password) {
+  async login(emailOrUsername, password) {
     const res = await fetch(`${this.baseUrl}/usuarios/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ emailOrUsername: email, password }),
+      body: JSON.stringify({ emailOrUsername, password }),
     });
 
     if (!res.ok) {
@@ -25,32 +25,38 @@ export class AuthRepositoryHttp {
         const data = await res.json();
         msg = data.error || data.message || msg;
       } catch {
-        // ignoramos error parseando JSON
-      }
+        //nothing
+        } 
       throw new Error(msg);
     }
 
+    // 🔥 Ahora sí: la respuesta REAL del backend
     const data = await res.json();
-    // Espero algo tipo: { id, nombre, email, token? }
+
+    // 🔥 El backend devuelve: { user: {...}, token }
     const user = {
-      id: data.id,
-      nombre: data.nombre || data.name || "",
-      email: data.email,
-      token: data.token || null,
+      id: data.user.id,
+      username: data.user.username,
+      name: data.user.name,
+      email: data.user.email,
     };
 
-    // Guardar en localStorage para usarlo luego (PaymentPage, etc.)
-    localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(user));
-    return user;
+    const token = data.token;
+
+    // Guardar en localStorage
+    localStorage.setItem(
+      AUTH_STORAGE_KEY,
+      JSON.stringify({ user, token })
+    );
+
+    // Devolver igual al AuthContext
+    return { user, token };
   }
 
   logout() {
     localStorage.removeItem(AUTH_STORAGE_KEY);
   }
 
-  /**
-   * Devuelve el usuario actual desde localStorage, o null si no hay.
-   */
   getCurrentUser() {
     try {
       const raw = localStorage.getItem(AUTH_STORAGE_KEY);
