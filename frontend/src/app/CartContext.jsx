@@ -6,8 +6,9 @@ const CartContext = createContext(null);
 
 export function CartProvider({ children }) {
   const [items, setItems] = useState([]);
+  const [initialized, setInitialized] = useState(false);
 
-  // Opcional: persistir en localStorage
+  // Persistir y sincronizar carrito en localStorage y entre pestañas
   useEffect(() => {
     const stored = localStorage.getItem("cart");
     if (stored) {
@@ -17,11 +18,24 @@ export function CartProvider({ children }) {
         // ignore
       }
     }
+    setInitialized(true);
+    // Escuchar cambios en localStorage desde otras pestañas
+    const handleStorage = (e) => {
+      if (e.key === "cart" && e.newValue) {
+        try {
+          setItems(JSON.parse(e.newValue));
+        } catch {}
+      }
+    };
+    window.addEventListener("storage", handleStorage);
+    return () => window.removeEventListener("storage", handleStorage);
   }, []);
 
   useEffect(() => {
-    localStorage.setItem("cart", JSON.stringify(items));
-  }, [items]);
+    if (initialized) {
+      localStorage.setItem("cart", JSON.stringify(items));
+    }
+  }, [items, initialized]);
 
   // Añadir producto (si ya existe, aumenta cantidad)
   const addItem = (product, restaurant) => {

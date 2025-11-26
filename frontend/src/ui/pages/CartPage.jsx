@@ -81,7 +81,7 @@ export default function CartPage() {
           </p>
         </div>
 
-        <div className="cart-summary__actions">
+        <div className="cart-summary__actions" style={{marginBottom: '1.5rem'}}>
           <button className="cart-summary__clear" onClick={clearCart}>
             Vaciar carrito
           </button>
@@ -93,6 +93,24 @@ export default function CartPage() {
             Pagar seleccionados
           </button>
         </div>
+      </div>
+
+      {/* Espacio para el link de invitación (abajo, fuera de cart-summary) */}
+      <div style={{margin: '2rem 0 0 0', width: '100%', textAlign: 'center'}}>
+        <label style={{fontWeight: 'bold', color: '#2563eb', display: 'block', marginBottom: '0.5rem'}}>Enlace de invitación:</label>
+        <input
+          type="text"
+          value={window.location.origin + '/cart?shared=' + Date.now()}
+          readOnly
+          style={{width: '80%', maxWidth: '400px', padding: '0.5rem', borderRadius: '8px', border: '1px solid #e5e7eb', marginBottom: '0.5rem', background: '#f8fafc', color: '#222'}}
+        />
+        <br />
+        <button
+          onClick={() => {navigator.clipboard.writeText(window.location.origin + '/cart?shared=' + Date.now())}}
+          style={{background: '#2563eb', color: 'white', border: 'none', borderRadius: '8px', padding: '0.5rem 1.5rem', fontWeight: 'bold', cursor: 'pointer', marginTop: '0.5rem'}}
+        >
+          Copiar enlace
+        </button>
       </div>
     </AppLayout>
   );

@@ -1,44 +1,30 @@
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
 import "./Sidebar.css";
 
-export default function Sidebar() {
+export default function Sidebar({ isOpen, onClose }) {
   const navigate = useNavigate();
-  const [isOpen, setIsOpen] = useState(false);
 
   const goTo = (path) => {
     navigate(path);
-    setIsOpen(false);
-  };
-
-  const toggleSidebar = () => {
-    setIsOpen((prev) => !prev);
+    onClose();
   };
 
   return (
     <>
-      {/* Botón flotante siempre visible en el costado derecho */}
-      <button
-        className={`sidebar-toggle ${isOpen ? "sidebar-toggle--open" : ""}`}
-        onClick={toggleSidebar}
-      >
-        ☰
-      </button>
-
       {/* Backdrop oscuro cuando el sidebar está abierto */}
-      {isOpen && <div className="sidebar-backdrop" onClick={toggleSidebar} />}
+      {isOpen && <div className="sidebar-backdrop" onClick={onClose} />}
 
       {/* Sidebar deslizándose desde la derecha */}
       <aside className={`sidebar ${isOpen ? "sidebar--open" : ""}`}>
         <header className="sidebar__header">
           <div className="sidebar__logo">Mi E-commerce</div>
-          <button className="sidebar__close" onClick={toggleSidebar}>
+          <button className="sidebar__close" onClick={onClose}>
             ✕
           </button>
         </header>
 
         <nav className="sidebar__nav">
-          <button className="sidebar__item" onClick={() => goTo("/home")}>
+          <button className="sidebar__item" onClick={() => goTo("/home")}> 
             Inicio
           </button>
 
@@ -49,7 +35,7 @@ export default function Sidebar() {
             Carritos compartidos
           </button>
 
-          <button className="sidebar__item" onClick={() => goTo("/profile")}>
+          <button className="sidebar__item" onClick={() => goTo("/profile")}> 
             Perfil
           </button>
         </nav>
