@@ -1,0 +1,33 @@
+# Ignorar todos los node_modules
+**/node_modules/
+**/node_modules/**/*
+
+# Ignorar logs y archivos de desarrollo
+*.log
+.npm
+.pnpm
+.yarn/
+.env
+.env.local
+.env.production
+
+# Ignorar carpetas de build
+dist/
+build/
+.coverage
+.nyc_output
+
+# Sistema
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Específicamente tus carpetas de servicios (si no son necesarias para el build)
+# Usuarios/node_modules/
+# carrito/node_modules/  
+# gateway/node_modules/
