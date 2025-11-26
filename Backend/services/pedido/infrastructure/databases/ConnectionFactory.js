@@ -1,5 +1,6 @@
-const { DataSource } = require('typeorm');
-const databaseConfig = require('./DatabaseConfig');
+// pedido/infrastructure/databases/ConnectionFactory.js
+const { DataSource } = require("typeorm");
+const { databaseConfig } = require("./DatabaseConfig");
 
 const AppDataSource = new DataSource(databaseConfig);
 
@@ -7,12 +8,20 @@ const initDatabase = async () => {
   try {
     if (!AppDataSource.isInitialized) {
       await AppDataSource.initialize();
-      console.log('📦 Database connected successfully');
+      console.log("📦 PEDIDO Database connected successfully");
     }
-  } catch (error) {
-    console.error('❌ Error connecting to database:', error);
-    throw error;
+  } catch (err) {
+    console.error("❌ Error connecting to PEDIDO database:", err);
+    throw err;
   }
 };
 
-module.exports = { AppDataSource, initDatabase };
+const query = async (sql, params = []) => {
+  if (!AppDataSource.isInitialized) {
+    await initDatabase();
+  }
+
+  return AppDataSource.query(sql, params);
+};
+
+module.exports = { AppDataSource, initDatabase, query };
