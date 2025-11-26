@@ -1,13 +1,17 @@
-import "../pages/HomePage.css"; 
+import { useState } from "react";
+import "../pages/HomePage.css";
 import Sidebar from "./Sidebar";
 
 export default function AppLayout({ title, subtitle, rightArea, children }) {
   return (
     <div className="home">
-
-      {/* Sidebar con su propio botón flotante */}
-      <Sidebar />
-
+      {/* Botón de menú fijo en el borde superior derecho */}
+      <button
+        className="home__menu-button-fixed"
+        onClick={() => setIsSidebarOpen(true)}
+      >
+        ☰ Menú
+      </button>
       <main className="home__main">
         {(title || subtitle || rightArea) && (
           <header className="home__topbar">
@@ -15,16 +19,17 @@ export default function AppLayout({ title, subtitle, rightArea, children }) {
               {title && <h1 className="home__title">{title}</h1>}
               {subtitle && <p className="home__subtitle">{subtitle}</p>}
             </div>
-
             <div className="home__topbar-right">
               {rightArea}
-              {/* Eliminamos el botón antiguo de menú */}
             </div>
           </header>
         )}
-
         {children}
       </main>
+      <Sidebar
+        isOpen={isSidebarOpen}
+        onClose={() => setIsSidebarOpen(false)}
+      />
     </div>
   );
 }

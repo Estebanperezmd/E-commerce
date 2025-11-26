@@ -16,6 +16,8 @@ export default function RestaurantPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
+  const [addedPrompt, setAddedPrompt] = useState("");
+
   useEffect(() => {
     async function load() {
       try {
@@ -56,6 +58,8 @@ export default function RestaurantPage() {
 
   const handleAddToCart = (product) => {
     addItem(product, restaurant);
+    setAddedPrompt(`"${product.name}" ha sido añadido al carrito`);
+    setTimeout(() => setAddedPrompt(""), 5000);
   };
 
   return (
@@ -63,6 +67,10 @@ export default function RestaurantPage() {
       <button className="back-button" onClick={() => navigate(-1)}>
         ← Volver
       </button>
+
+      {addedPrompt && (
+        <div className="added-prompt">{addedPrompt}</div>
+      )}
 
       {error && <p className="restaurant-page__error">{error}</p>}
 

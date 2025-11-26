@@ -1,18 +1,21 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const { initDatabase } = require ('./infrastructure/databases/ConnectionFactory.js');
-const UserRoute = require('./interfaces/routes/user.routes');
+const express = require("express");
+const userController = require("./interfaces/controllers/UserController");
+const cartController = require("./interfaces/controllers/CartController"); // si existe
 
 const app = express();
-app.use(bodyParser.json());
 
-// Rutas principales del microservicio Usuarios
-app.use('/usuarios', UserRoute);
+// Para permitir JSON en las peticiones
+app.use(express.json());
 
-// Puerto por defecto (3002, igual al docker-compose)
+// Rutas del microservicio Usuarios
+app.use("/usuarios", userController);
+
+// Si el microservicio maneja carritos también:
+app.use("/carrito", cartController);  // opcional
+
+// Puerto del microservicio
 const PORT = process.env.PORT || 3002;
 
-app.listen(PORT, async () => {
-  await initDatabase();
-  console.log(`👤 Microservicio Usuarios corriendo en puerto ${PORT}`);
+app.listen(PORT, () => {
+  console.log(`Microservicio Usuarios corriendo en puerto ${PORT}`);
 });

@@ -1,39 +1,155 @@
+/* Centrado de todo el contenido principal */
+.home {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  width: 100vw;
+  box-sizing: border-box;
+  background: var(--home-bg, #0a1733);
+}
+
+/* Mejorar el contenido dentro del contenedor principal */
+.home__main {
+  width: 95vw;
+  max-width: 600px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 4px 32px rgba(10,23,51,0.12);
+  padding: 2.5rem 2rem 2rem 2rem;
+  min-height: 350px;
+}
+
+.home__title {
+  font-size: 2.2em;
+  font-weight: 700;
+  color: #213a6b;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.home__subtitle {
+  font-size: 1.1em;
+  color: #3a6cf6;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.home__topbar {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.home__city-select,
+.home__search {
+  margin-bottom: 1rem;
+}
+
 .home__city-select {
   margin-right: 1rem;
+  padding: 0.5em 1em;
+  border-radius: 8px;
+  border: 1px solid #1a2a4a;
+  background: #e3eafc;
+  color: #213547;
+  font-size: 1em;
+  transition: background 0.3s, color 0.3s;
 }
 
 .home__search {
-  padding: 0.4rem;
+  padding: 0.5em 1em;
   border-radius: 8px;
-  border: 1px solid #ccc;
-  width: 200px;
+  border: 1px solid #1a2a4a;
+  background: #e3eafc;
+  color: #213547;
+  width: 220px;
+  font-size: 1em;
+  transition: background 0.3s, color 0.3s;
 }
 
 .home__section-title {
   margin-bottom: 1rem;
+  color: #3a6cf6;
+  font-size: 1.5em;
+  font-weight: 600;
+  text-align: center;
 }
 
-.restaurant-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
+.home__main > p,
+.home__main > .home__section-title {
+  text-align: center;
+  margin-bottom: 1.2rem;
 }
 
-.restaurant-card {
-  display: block;
-  text-decoration: none;
-  color: black;
-  border: 1px solid #ccc;
-  padding: 1rem;
-  border-radius: 10px;
-  width: 250px;
+/* Espaciado entre mensajes y secciones */
+.home__main > p {
+  margin-top: 0.5rem;
+  margin-bottom: 1.2rem;
+  color: #213547;
+  font-size: 1.05em;
 }
 
-.restaurant-card h3 {
-  margin: 0 0 0.5rem 0;
+/* Responsive */
+@media (max-width: 700px) {
+  .home__main {
+    max-width: 98vw;
+    padding: 1.2rem 0.5rem 1.2rem 0.5rem;
+    min-height: 200px;
+    border-radius: 10px;
+  }
 }
 
-.restaurant-card p {
-  margin: 0;
-  color: #555;
+/* Botón de menú fijo en el borde superior derecho */
+.home__menu-button-fixed {
+  position: fixed;
+  top: 32px;
+  right: 32px;
+  background: #3a6cf6;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(10,23,51,0.10);
+  transition: background 0.3s, color 0.3s;
+  z-index: 2000;
+}
+.home__menu-button-fixed:hover {
+  background: #213a6b;
+}
+
+/* Ocultar el botón de menú original dentro del contenedor */
+.home__menu-button {
+  display: none;
+}
+
+@media (max-width: 700px) {
+  .home__menu-button {
+    padding: 0.5em 0.8em;
+    font-size: 0.95em;
+  }
+}
+
+/* Mensajes centrados */
+.home__main > p,
+.home__main > .home__section-title {
+  text-align: center;
+}
+
+/* Barra inferior oculta */
+body > .theme-toggle-btn {
+  bottom: 32px !important;
+  right: 32px !important;
 }
