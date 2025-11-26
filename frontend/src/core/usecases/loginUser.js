@@ -2,11 +2,7 @@
 //
 // @param {AuthRepository} authRepository
 // @param {{ emailOrUsername: string, password: string }} credentials
-export async function loginUser(authRepository, credentials) {
-  if (!credentials?.emailOrUsername || !credentials?.password) {
-    throw new Error("Credenciales incompletas");
-  }
-
-  // Llama al repositorio real o local
-  return authRepository.login(credentials);
+// core/usecases/loginUser.js
+export async function loginUser(authRepository, { emailOrUsername, password }) {
+  return authRepository.login(emailOrUsername, password);
 }

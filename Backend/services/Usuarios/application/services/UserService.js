@@ -1,5 +1,5 @@
-const UsuarioRepository = require('../infrastructure/repositories/UsuarioRepository');
-const Usuario = require('../domain/Usuario');
+const UsuarioRepository = require('../../infrastructure/repositories/UsuarioRepository');
+const Usuario = require('../../domain/entities/Usuario');
 
 class UserService {
   constructor() {

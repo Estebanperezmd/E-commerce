@@ -1,15 +1,17 @@
 import { CityRepositoryHttp } from "../infrastructure/repositories/CityRepositoryHttp";
 import { RestaurantRepositoryHttp } from "../infrastructure/repositories/RestaurantRepositoryHttp";
 import { ProductRepositoryHttp } from "../infrastructure/repositories/ProductRepositoryHttp";
-import { AuthRepositoryLocal } from "../infrastructure/repositories/AuthRepositoryLocal";
+import { AuthRepositoryHttp } from "../infrastructure/repositories/AuthRepositoryHttp";
 
 //            ^^^^^^^^^^^^^  asumiendo que ese archivo exporta por defecto
 
-const BASE_URL = "http://localhost:3005";
+
+const CATALOGO_BASE_URL = "http://localhost:3005";  // productos, ciudades, restaurantes
+const USUARIOS_BASE_URL = "http://localhost:3002";  // micro de usuarios
 
 export const repositories = {
-  authRepository: new AuthRepositoryLocal(),        // 👈 vuelve el login mock
-  cityRepository: new CityRepositoryHttp(BASE_URL),
-  restaurantRepository: new RestaurantRepositoryHttp(BASE_URL),
-  productRepository: new ProductRepositoryHttp(BASE_URL),
+  authRepository: new AuthRepositoryHttp(USUARIOS_BASE_URL),
+  cityRepository: new CityRepositoryHttp(CATALOGO_BASE_URL),
+  restaurantRepository: new RestaurantRepositoryHttp(CATALOGO_BASE_URL),
+  productRepository: new ProductRepositoryHttp(CATALOGO_BASE_URL),
 };

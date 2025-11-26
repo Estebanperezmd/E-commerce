@@ -3,6 +3,9 @@ import "../pages/HomePage.css";
 import Sidebar from "./Sidebar";
 
 export default function AppLayout({ title, subtitle, rightArea, children }) {
+  // 👉 Estado para abrir/cerrar el sidebar
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
   return (
     <div className="home">
       {/* Botón de menú fijo en el borde superior derecho */}
@@ -12,6 +15,7 @@ export default function AppLayout({ title, subtitle, rightArea, children }) {
       >
         ☰ Menú
       </button>
+
       <main className="home__main">
         {(title || subtitle || rightArea) && (
           <header className="home__topbar">
@@ -19,13 +23,17 @@ export default function AppLayout({ title, subtitle, rightArea, children }) {
               {title && <h1 className="home__title">{title}</h1>}
               {subtitle && <p className="home__subtitle">{subtitle}</p>}
             </div>
+
             <div className="home__topbar-right">
               {rightArea}
             </div>
           </header>
         )}
+
         {children}
       </main>
+
+      {/* Sidebar */}
       <Sidebar
         isOpen={isSidebarOpen}
         onClose={() => setIsSidebarOpen(false)}

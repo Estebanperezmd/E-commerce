@@ -1,8 +1,13 @@
 const express = require("express");
+const cors = require("cors");  // 👈 NUEVO
+
 const userController = require("./interfaces/controllers/UserController");
 const cartController = require("./interfaces/controllers/CartController"); // si existe
 
 const app = express();
+
+// Habilitar CORS para el frontend (puedes dejarlo abierto)
+app.use(cors()); // o: app.use(cors({ origin: "http://localhost:5173" }));
 
 // Para permitir JSON en las peticiones
 app.use(express.json());

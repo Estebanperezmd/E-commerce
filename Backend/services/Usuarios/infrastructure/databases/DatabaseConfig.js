@@ -1,5 +1,15 @@
 // infrastructure/databases/DatabaseConfig.js
-const { Usuario } = require('../../domain/entities/User'); // ajusta al nombre real de tu entidad
+require('dotenv').config(); 
+
+const { Usuario } = require('../../domain/entities/Usuario.js');
+
+console.log('DB CONFIG Usuario', {
+  host: process.env.DB_HOST,
+  port: process.env.DB_PORT,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD ? process.env.DB_PASSWORD.slice(0, 4) + '***' : undefined,
+  name: process.env.DB_NAME,
+});
 
 const databaseConfig = {
   type: 'postgres',

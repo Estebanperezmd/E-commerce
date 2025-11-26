@@ -1,50 +1,66 @@
-const ConnectionFactory = require('../databases/ConnectionFactory');
-const Usuario = require('../../domain/Usuario');
+// services/Usuarios/infrastructure/repositories/UsuarioRepository.js
+
+const { getConnection } = require('../databases/ConnectionFactory');
+const Usuario = require('../../domain/entities/Usuario');
 
 class UsuarioRepository {
-  
   async findAll() {
-    const client = await ConnectionFactory.getConnection();
+    const dataSource = await getConnection();
 
-    const query = 'SELECT id, nombre, correo, contraseña FROM usuario';
-    const result = await client.query(query);
+    // OJO: usamos la tabla "Usuarios" y alias para que cuadre con la entidad
+    const query = `
+      SELECT
+        id,
+        users    AS nombre,
+        email    AS correo,
+        password AS contraseña
+      FROM "Usuarios"
+    `;
+    const rows = await dataSource.query(query);
 
-    client.release();
-
-    return result.rows.map(
-      row => new Usuario(row.id, row.nombre, row.correo, row.contraseña)
+    return rows.map(
+      (row) => new Usuario(row.id, row.nombre, row.correo, row.contraseña)
     );
   }
 
   async findById(id) {
-    const client = await ConnectionFactory.getConnection();
+    const dataSource = await getConnection();
 
-    const query = 'SELECT id, nombre, correo, contraseña FROM usuario WHERE id = $1';
-    const result = await client.query(query, [id]);
+    const query = `
+      SELECT
+        id,
+        users    AS nombre,
+        email    AS correo,
+        password AS contraseña
+      FROM "Usuarios"
+      WHERE id = $1
+    `;
+    const rows = await dataSource.query(query, [id]);
 
-    client.release();
+    if (rows.length === 0) return null;
 
-    if (result.rows.length === 0) return null;
-
-    const row = result.rows[0];
+    const row = rows[0];
     return new Usuario(row.id, row.nombre, row.correo, row.contraseña);
   }
 
   async create(usuario) {
-    const client = await ConnectionFactory.getConnection();
+    const dataSource = await getConnection();
 
     const query = `
-      INSERT INTO usuario (nombre, correo, contraseña)
-      VALUES ($1, $2, $3)
+      INSERT INTO "Usuarios" (users, password, name, email, card_information)
+      VALUES ($1, $2, $3, $4, $5)
       RETURNING id
     `;
 
-    const values = [usuario.nombre, usuario.correo, usuario.contraseña];
+    const rows = await dataSource.query(query, [
+      usuario.nombre,       // users
+      usuario.contraseña,   // password
+      usuario.nombre,       // name (puedes cambiarlo luego)
+      usuario.correo,       // email
+      null,                 // card_information
+    ]);
 
-    const result = await client.query(query, values);
-    client.release();
-
-    usuario.id = result.rows[0].id;
+    usuario.id = rows[0].id;
     return usuario;
   }
 }

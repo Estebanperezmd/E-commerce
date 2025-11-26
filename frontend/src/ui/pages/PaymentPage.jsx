@@ -3,6 +3,7 @@ import { useCart } from "../../app/CartContext";
 import AppLayout from "../components/AppLayout";
 import "./PaymentPage.css";
 import { useState } from "react";
+import { useAuth } from "../../app/AuthContext";   // 👈 NUEVO
 
 const PEDIDOS_BASE_URL = "http://localhost:3006";
 
@@ -10,6 +11,10 @@ export default function PaymentPage() {
   const { items, selectedTotal, clearCart } = useCart();
   const navigate = useNavigate();
   const selectedItems = items.filter((it) => it.selected);
+
+  const { auth } = useAuth();              // 👈 obtenemos user del contexto
+  const currentUser = auth?.user || null;  // puede ser null si no hay login
+  const userId = currentUser?.id || 1;     // fallback a 1 para pruebas
 
   const [cardNumber, setCardNumber] = useState("");
   const [cardName, setCardName] = useState("");
@@ -22,13 +27,10 @@ export default function PaymentPage() {
   const handleConfirm = async () => {
     if (isProcessing) return;
 
-    setError("");
     setIsProcessing(true);
+    setError("");
 
     try {
-      // TODO: reemplazar por el id real del usuario logueado cuando tengas auth
-      const idUsuario = 1;
-
       const paymentInfo = {
         last4: cardNumber.slice(-4),
         cardName: cardName || null,
@@ -39,7 +41,7 @@ export default function PaymentPage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          idUsuario,
+          idUsuario: userId,                // 👈 ahora sale del contexto
           totalAmount: Number(selectedTotal),
           paymentInfo,
         }),
@@ -51,21 +53,19 @@ export default function PaymentPage() {
           const data = await res.json();
           msg = data.error || data.message || msg;
         } catch {
-          // ignoramos error al leer el cuerpo
+          // ignoramos error al parsear JSON
         }
         throw new Error(msg);
       }
 
       const order = await res.json();
-      console.log("✅ Pedido creado en backend:", order);
+      console.log("✅ Pedido creado:", order);
 
-      // Limpiamos carrito y mostramos pantallita de confirmación
       clearCart();
       setShowConfirmation(true);
 
-      // Pequeña pausa antes de volver al home
       setTimeout(() => {
-        navigate("/home", { state: { lastOrderId: order.id } });
+        navigate("/home");
       }, 2000);
     } catch (err) {
       console.error(err);
@@ -144,7 +144,7 @@ export default function PaymentPage() {
             value={cardExpiry}
             onChange={(e) => setCardExpiry(e.target.value)}
           />
-        <input
+          <input
             type="text"
             placeholder="CVV"
             maxLength={4}
