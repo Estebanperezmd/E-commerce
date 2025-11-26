@@ -6,7 +6,7 @@ const router = express.Router();
 // Rutas simples hacia los microservicios
 router.get('/pagos', async (req, res) => {
   try {
-    const response = await axios.get('http://localhost:3001/pagos');
+    const response = await axios.get('https://leda-proalien-kiersten.ngrok-free.dev/pagos');
     res.json(response.data);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -15,7 +15,7 @@ router.get('/pagos', async (req, res) => {
 
 router.post('/pagos', async (req, res) => {
   try {
-    const response = await axios.post('http://localhost:3001/pagos', req.body);
+    const response = await axios.post('https://leda-proalien-kiersten.ngrok-free.dev/pagos', req.body);
     res.json(response.data);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -24,7 +24,7 @@ router.post('/pagos', async (req, res) => {
 
 router.get('/usuarios', async (req, res) => {
   try {
-    const response = await axios.get('http://localhost:3002/usuarios');
+    const response = await axios.get('https://leda-proalien-kiersten.ngrok-free.dev/usuarios');
     res.json(response.data);
   } catch (err) {
     res.status(500).json({ error: err.message });

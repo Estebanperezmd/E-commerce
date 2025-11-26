@@ -7,12 +7,12 @@ class CartController {
     try {
       const { id_usuario, id_producto, cantidad } = req.body;
 
-      // Validar existencia del usuario
-      const userResponse = await axios.get(`http://localhost:3000/usuarios/${id_usuario}`);
+      // Validar existencia del usuario (ngrok)
+      const userResponse = await axios.get(`https://leda-proalien-kiersten.ngrok-free.dev/usuarios/${id_usuario}`);
       if (!userResponse.data) return res.status(404).json({ message: 'Usuario no encontrado' });
 
-      // Validar existencia del producto
-      const productResponse = await axios.get(`http://localhost:3001/productos/${id_producto}`);
+      // Validar existencia del producto (ngrok)
+      const productResponse = await axios.get(`https://leda-proalien-kiersten.ngrok-free.dev/productos/${id_producto}`);
       if (!productResponse.data) return res.status(404).json({ message: 'Producto no encontrado' });
 
       // Insertar producto en carrito

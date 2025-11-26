@@ -5,7 +5,8 @@ import "./PaymentPage.css";
 import { useState } from "react";
 import { useAuth } from "../../app/AuthContext";   // 👈 NUEVO
 
-const PEDIDOS_BASE_URL = "http://localhost:3006";
+// Usa la URL pública de ngrok para producción
+const PEDIDOS_BASE_URL = "https://leda-proalien-kiersten.ngrok-free.dev";
 
 export default function PaymentPage() {
   const { items, selectedTotal, clearCart } = useCart();
@@ -37,7 +38,7 @@ export default function PaymentPage() {
         cardExpiry: cardExpiry || null,
       };
 
-      const res = await fetch(`${PEDIDOS_BASE_URL}/pedidos`, {
+      const res = await fetch(`${PEDIDOS_BASE_URL}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

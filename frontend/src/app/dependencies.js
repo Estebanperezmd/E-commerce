@@ -6,8 +6,10 @@ import { AuthRepositoryHttp } from "../infrastructure/repositories/AuthRepositor
 //            ^^^^^^^^^^^^^  asumiendo que ese archivo exporta por defecto
 
 
-const CATALOGO_BASE_URL = "http://localhost:3005";  // productos, ciudades, restaurantes
-const USUARIOS_BASE_URL = "http://localhost:3002";  // micro de usuarios
+// Usa la URL pública de ngrok para producción
+const NGROK_BASE_URL = "https://leda-proalien-kiersten.ngrok-free.dev"; // URL pública actual de ngrok
+const CATALOGO_BASE_URL = NGROK_BASE_URL;  // productos, ciudades, restaurantes
+const USUARIOS_BASE_URL = NGROK_BASE_URL;  // micro de usuarios
 
 export const repositories = {
   authRepository: new AuthRepositoryHttp(USUARIOS_BASE_URL),
