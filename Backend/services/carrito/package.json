@@ -4,9 +4,9 @@
   "description": "Microservicio de Carrito - E-commerce",
  
   "scripts": {
-    "start": "node src/main.js",
-    "start:dev": "nodemon src/main.js"
-  },
+  "start:dev": "nodemon main.js"
+}
+,
   "dependencies": {
     "@nestjs/common": "^10.0.0",
     "@nestjs/core": "^10.0.0",

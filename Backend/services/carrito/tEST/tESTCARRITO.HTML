@@ -2,41 +2,49 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <title>Test ensure cart</title>
+  <title>Test micro carrito</title>
 </head>
 <body>
-  <h1>Test ensure cart</h1>
+  <h1>Test micro carrito</h1>
 
-  <label>
-    userId:
-    <input id="userId" type="number" value="1" />
-  </label>
-  <button id="btn">Asegurar carrito</button>
+  <button id="btnPing">Probar GET /ping</button>
+  <button id="btnCreate">Probar POST /create</button>
 
   <pre id="out"></pre>
 
   <script>
-    const btn = document.getElementById("btn");
+    const BASE = "http://localhost:3007"; // 👈 MISMO PUERTO QUE EL BACK
     const out = document.getElementById("out");
-    const input = document.getElementById("userId");
 
-    btn.onclick = async () => {
-      const userId = Number(input.value);
-      out.textContent = "Cargando...";
-
+    async function call(method, path, body = null) {
+      out.textContent = `${method} ${BASE}${path}...\n`;
       try {
-        const res = await fetch("http://localhost:3002/carritos/ensure", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ userId }),
+        const res = await fetch(`${BASE}${path}`, {
+          method,
+          headers: body ? { "Content-Type": "application/json" } : undefined,
+          body: body ? JSON.stringify(body) : undefined,
         });
 
-        const data = await res.json();
-        out.textContent = JSON.stringify(data, null, 2);
+        const text = await res.text(); // 👈 leemos texto, no asumimos JSON
+
+        out.textContent =
+          `Status: ${res.status}\n` +
+          `URL: ${res.url}\n\n` +
+          `Body crudo:\n${text}`;
       } catch (err) {
         out.textContent = "Error: " + err.message;
       }
-    };
+    }
+
+    document.getElementById("btnPing").addEventListener("click", () => {
+      call("GET", "/ping");
+    });
+
+    // En el testCarrito.html, botón POST /create:
+document.getElementById("btnCreate").addEventListener("click", () => {
+  call("POST", "/create", { prueba: true, userId: 4 }); // por ejemplo el id=4 que me mostraste
+});
+
   </script>
 </body>
 </html>

@@ -1,7 +1,7 @@
-// services/Usuarios/infrastructure/repositories/UsuarioRepository.js
+// Backend/services/Usuarios/infrastructure/repositories/UsuarioRepository.js
 
-const { getConnection } = require('../databases/ConnectionFactory');
-const Usuario = require('../../domain/entities/Usuario');
+const { getConnection } = require("../databases/ConnectionFactory");
+const Usuario = require("../../domain/entities/Usuario");
 
 class UsuarioRepository {
   async findAll() {
@@ -15,7 +15,6 @@ class UsuarioRepository {
         password AS contraseña
       FROM "Usuarios"
     `;
-
     const rows = await dataSource.query(query);
 
     return rows.map(
@@ -35,7 +34,6 @@ class UsuarioRepository {
       FROM "Usuarios"
       WHERE id = $1
     `;
-
     const rows = await dataSource.query(query, [id]);
 
     if (rows.length === 0) return null;
@@ -45,36 +43,25 @@ class UsuarioRepository {
   }
 
   async create(usuario) {
-  const dataSource = await getConnection();
+    const dataSource = await getConnection();
 
-  
-  const result = await dataSource.query(`SELECT MAX(id) AS max FROM "Usuarios"`);
-  const lastId = result[0]?.max || 0;
+    const query = `
+      INSERT INTO "Usuarios" (users, password, name, email, card_information)
+      VALUES ($1, $2, $3, $4, $5)
+      RETURNING id
+    `;
 
-  
-  const nuevoId = lastId + 1;
+    const rows = await dataSource.query(query, [
+      usuario.nombre,       // users
+      usuario.contraseña,   // password
+      usuario.nombre,       // name
+      usuario.correo,       // email
+      null,                 // card_information
+    ]);
 
-  const query = `
-    INSERT INTO "Usuarios" (id, users, password, name, email, card_information)
-    VALUES ($1, $2, $3, $4, $5, $6)
-    RETURNING id
-  `;
-
-  const rows = await dataSource.query(query, [
-    nuevoId,             // id generado
-    usuario.nombre,      // users
-    usuario.contraseña,  // password
-    usuario.nombre,      // name
-    usuario.correo,      // email
-    null                 // card_information
-  ]);
-
-  usuario.id = rows[0].id;
-  return usuario;
+    usuario.id = rows[0].id;
+    return usuario;
+  }
 }
 
-
-}
-
-// 👇 Exportamos una *instancia*, no la clase
-module.exports = new UsuarioRepository();
+module.exports = UsuarioRepository;
