@@ -76,10 +76,17 @@ export default function LoginPage() {
           <button className="login-button" type="submit" disabled={loading}>
             {loading ? "Entrando..." : "Entrar"}
           </button>
+    <p className="login-footnote">
+      ¿No tienes cuenta?{" "}
+      <button
+        type="button"
+        className="login-link"
+        onClick={() => navigate("/register")}
+      >
+        Regístrate aquí
+      </button>
+    </p>
 
-          <p className="login-footnote">
-            Usuario demo: <b>demo / 123456</b>
-          </p>
         </form>
       </div>
     </div>

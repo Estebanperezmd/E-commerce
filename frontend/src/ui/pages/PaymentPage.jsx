@@ -3,18 +3,18 @@ import { useCart } from "../../app/CartContext";
 import AppLayout from "../components/AppLayout";
 import "./PaymentPage.css";
 import { useState } from "react";
-import { useAuth } from "../../app/AuthContext";   // 👈 NUEVO
+import { useAuth } from "../../app/AuthContext";
 
 const PEDIDOS_BASE_URL = "http://localhost:3006";
 
 export default function PaymentPage() {
-  const { items, selectedTotal, clearCart } = useCart();
+  const { items, selectedTotal, clearSelectedItems  } = useCart();
   const navigate = useNavigate();
   const selectedItems = items.filter((it) => it.selected);
 
-  const { auth } = useAuth();              // 👈 obtenemos user del contexto
-  const currentUser = auth?.user || null;  // puede ser null si no hay login
-  const userId = currentUser?.id || 1;     // fallback a 1 para pruebas
+  const { auth } = useAuth();
+  const currentUser = auth?.user || null;
+  const userId = currentUser?.id || 1; // fallback mientras tanto
 
   const [cardNumber, setCardNumber] = useState("");
   const [cardName, setCardName] = useState("");
@@ -24,8 +24,54 @@ export default function PaymentPage() {
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [error, setError] = useState("");
 
+  // --------- HANDLERS DE INPUT (sanitizar) ---------
+
+  // Solo números, hasta 16 dígitos
+  const handleCardNumberChange = (e) => {
+    const onlyDigits = e.target.value.replace(/\D/g, "").slice(0, 16);
+    setCardNumber(onlyDigits);
+  };
+
+  // Solo letras y espacios
+  const handleCardNameChange = (e) => {
+    const onlyLetters = e.target.value
+      .replace(/[^A-Za-zÁÉÍÓÚáéíóúÑñ\s]/g, "")
+      .slice(0, 40);
+    setCardName(onlyLetters);
+  };
+
+  // MM/AA: se auto-formatea
+  const handleCardExpiryChange = (e) => {
+    let value = e.target.value.replace(/\D/g, "").slice(0, 4); // solo 4 números
+
+    if (value.length >= 3) {
+      value = value.slice(0, 2) + "/" + value.slice(2);
+    }
+
+    setCardExpiry(value);
+  };
+
+  // Solo 3 dígitos
+  const handleCardCVVChange = (e) => {
+    const onlyDigits = e.target.value.replace(/\D/g, "").slice(0, 3);
+    setCardCVV(onlyDigits);
+  };
+
+  // --------- VALIDACIONES ---------
+
+  const isCardNumberValid = cardNumber.length === 16;
+  const isNameValid = cardName.trim().length > 0;
+  const isExpiryValid = /^((0[1-9])|(1[0-2]))\/\d{2}$/.test(cardExpiry);
+  const isCVVValid = cardCVV.length === 3;
+
+  const isFormValid =
+    isCardNumberValid && isNameValid && isExpiryValid && isCVVValid;
+
+  // --------- CONFIRMAR PAGO ---------
+
   const handleConfirm = async () => {
-    if (isProcessing) return;
+    // si está procesando o el formulario es inválido, no hacemos nada
+    if (isProcessing || !isFormValid) return;
 
     setIsProcessing(true);
     setError("");
@@ -41,7 +87,7 @@ export default function PaymentPage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          idUsuario: userId,                // 👈 ahora sale del contexto
+          idUsuario: userId,
           totalAmount: Number(selectedTotal),
           paymentInfo,
         }),
@@ -53,7 +99,7 @@ export default function PaymentPage() {
           const data = await res.json();
           msg = data.error || data.message || msg;
         } catch {
-          // ignoramos error al parsear JSON
+          /* ignore */
         }
         throw new Error(msg);
       }
@@ -61,7 +107,7 @@ export default function PaymentPage() {
       const order = await res.json();
       console.log("✅ Pedido creado:", order);
 
-      clearCart();
+      clearSelectedItems ();
       setShowConfirmation(true);
 
       setTimeout(() => {
@@ -74,6 +120,8 @@ export default function PaymentPage() {
       setIsProcessing(false);
     }
   };
+
+  // --------- RENDERS ---------
 
   if (selectedItems.length === 0 && !showConfirmation) {
     return (
@@ -126,30 +174,27 @@ export default function PaymentPage() {
         <input
           type="text"
           placeholder="Número de tarjeta"
-          maxLength={19}
           value={cardNumber}
-          onChange={(e) => setCardNumber(e.target.value)}
+          onChange={handleCardNumberChange}
         />
         <input
           type="text"
           placeholder="Nombre en la tarjeta"
           value={cardName}
-          onChange={(e) => setCardName(e.target.value)}
+          onChange={handleCardNameChange}
         />
         <div className="payment-card-form__row">
           <input
             type="text"
             placeholder="MM/AA"
-            maxLength={5}
             value={cardExpiry}
-            onChange={(e) => setCardExpiry(e.target.value)}
+            onChange={handleCardExpiryChange}
           />
           <input
             type="text"
             placeholder="CVV"
-            maxLength={4}
             value={cardCVV}
-            onChange={(e) => setCardCVV(e.target.value)}
+            onChange={handleCardCVVChange}
           />
         </div>
       </div>
@@ -174,7 +219,7 @@ export default function PaymentPage() {
         <button
           className="payment-confirm"
           onClick={handleConfirm}
-          disabled={isProcessing}
+          disabled={isProcessing || !isFormValid}
         >
           {isProcessing ? "Procesando..." : "Confirmar pago"}
         </button>

@@ -5,6 +5,7 @@ import RestaurantPage from "../ui/pages/RestaurantPage";
 import ProfilePage from "../ui/pages/ProfilePage";
 import CartPage from "../ui/pages/CartPage";
 import PaymentPage from "../ui/pages/PaymentPage";
+import RegisterPage from "../ui/pages/RegisterPage";
 // (FriendsPage y SharedCartsPage si ya las tienes)
 
 export default function AppRouter() {
@@ -16,6 +17,8 @@ export default function AppRouter() {
       <Route path="/profile" element={<ProfilePage />} />
       <Route path="/cart" element={<CartPage />} />
       <Route path="/payment" element={<PaymentPage />} />
+       <Route path="/login" element={<LoginPage />} />
+      <Route path="/register" element={<RegisterPage />} />
       {/* otras rutas si las tienes */}
     </Routes>
   );

@@ -1,155 +1,379 @@
-/* Centrado de todo el contenido principal */
+/* =========================
+   LAYOUT GENERAL (AppLayout)
+   ========================== */
+
 .home {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
   min-height: 100vh;
   width: 100vw;
   box-sizing: border-box;
-  background: var(--home-bg, #0a1733);
+  display: flex;
+  justify-content: center;
+  padding: 2rem 1.5rem;
+  background:
+    radial-gradient(circle at top, #1e293b 0, #020617 55%, #000000 100%);
 }
 
-/* Mejorar el contenido dentro del contenedor principal */
+/* Contenedor principal */
 .home__main {
-  width: 95vw;
-  max-width: 600px;
+  flex: 1;
+  max-width: 1200px;
   margin: 0 auto;
+  padding: 2.3rem 2.6rem 2.8rem;
+  border-radius: 28px;
+  position: relative;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  background: #fff;
-  border-radius: 18px;
-  box-shadow: 0 4px 32px rgba(10,23,51,0.12);
-  padding: 2.5rem 2rem 2rem 2rem;
-  min-height: 350px;
+
+  /* Glassmorphism oscuro */
+  background: linear-gradient(145deg, rgba(15,23,42,0.96), rgba(15,23,42,0.88));
+  border: 1px solid rgba(148, 163, 184, 0.4);
+  box-shadow:
+    0 24px 60px rgba(15, 23, 42, 0.85),
+    0 0 0 1px rgba(15, 23, 42, 0.7);
+  overflow: hidden;
 }
 
-.home__title {
-  font-size: 2.2em;
-  font-weight: 700;
-  color: #213a6b;
-  margin-bottom: 0.5rem;
-  text-align: center;
+/* halos decorativos de luz */
+.home__main::before,
+.home__main::after {
+  content: "";
+  position: absolute;
+  border-radius: 999px;
+  filter: blur(55px);
+  opacity: 0.8;
+  pointer-events: none;
+  z-index: -1;
 }
 
-.home__subtitle {
-  font-size: 1.1em;
-  color: #3a6cf6;
-  margin-bottom: 1.5rem;
-  text-align: center;
+.home__main::before {
+  width: 320px;
+  height: 320px;
+  background: rgba(56, 189, 248, 0.35);
+  top: -120px;
+  right: -80px;
 }
+
+.home__main::after {
+  width: 260px;
+  height: 260px;
+  background: rgba(59, 130, 246, 0.3);
+  bottom: -110px;
+  left: -70px;
+}
+
+/* =========================
+   CABECERA
+   ========================== */
 
 .home__topbar {
   width: 100%;
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  gap: 1rem;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1.7rem;
   margin-bottom: 2rem;
+  flex-wrap: wrap;
 }
 
+.home__topbar-left {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.home__title {
+  margin: 0;
+  font-size: 2.5rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: #e5e7eb;
+}
+
+.home__subtitle {
+  margin: 0;
+  font-size: 0.98rem;
+  color: #9ca3af;
+}
+
+/* =========================
+   FILTROS (CIUDAD + BUSCADOR)
+   ========================== */
+
+.home__topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  flex-wrap: wrap;
+}
+
+/* contenedor tipo chip grande */
+.home__filters {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.55rem 0.85rem;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.85);
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.8);
+  border: 1px solid rgba(148, 163, 184, 0.5);
+}
+
+/* inputs y select */
 .home__city-select,
 .home__search {
-  margin-bottom: 1rem;
+  padding: 0.55em 0.95em;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.7);
+  background: rgba(15, 23, 42, 0.9);
+  color: #e5e7eb;
+  font-size: 0.93rem;
+  outline: none;
+  transition:
+    border-color 0.18s ease,
+    box-shadow 0.18s ease,
+    background 0.18s ease,
+    transform 0.18s ease;
 }
 
 .home__city-select {
-  margin-right: 1rem;
-  padding: 0.5em 1em;
-  border-radius: 8px;
-  border: 1px solid #1a2a4a;
-  background: #e3eafc;
-  color: #213547;
-  font-size: 1em;
-  transition: background 0.3s, color 0.3s;
+  min-width: 150px;
 }
 
 .home__search {
-  padding: 0.5em 1em;
-  border-radius: 8px;
-  border: 1px solid #1a2a4a;
-  background: #e3eafc;
-  color: #213547;
-  width: 220px;
-  font-size: 1em;
-  transition: background 0.3s, color 0.3s;
+  min-width: 240px;
+}
+
+/* focus */
+.home__city-select:focus,
+.home__search:focus {
+  border-color: #38bdf8;
+  background: rgba(15, 23, 42, 0.95);
+  box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.35);
+  transform: translateY(-1px);
+}
+
+/* =========================
+   SECCIONES
+   ========================== */
+
+.home__section {
+  margin-top: 0.4rem;
 }
 
 .home__section-title {
-  margin-bottom: 1rem;
-  color: #3a6cf6;
-  font-size: 1.5em;
-  font-weight: 600;
-  text-align: center;
+  margin: 0 0 1.1rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #bfdbfe;
 }
 
-.home__main > p,
-.home__main > .home__section-title {
-  text-align: center;
-  margin-bottom: 1.2rem;
-}
-
-/* Espaciado entre mensajes y secciones */
+/* mensajes sueltos (errores, etc.) */
 .home__main > p {
-  margin-top: 0.5rem;
-  margin-bottom: 1.2rem;
-  color: #213547;
-  font-size: 1.05em;
+  margin: 0.5rem 0 1.3rem;
+  color: #e5e7eb;
+  font-size: 1.02rem;
 }
 
-/* Responsive */
-@media (max-width: 700px) {
-  .home__main {
-    max-width: 98vw;
-    padding: 1.2rem 0.5rem 1.2rem 0.5rem;
-    min-height: 200px;
-    border-radius: 10px;
-  }
+/* =========================
+   GRID DE RESTAURANTES
+   ========================== */
+
+.restaurant-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.4rem 1.4rem;
 }
 
-/* Botón de menú fijo en el borde superior derecho */
+/* tarjeta de restaurante */
+.restaurant-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 18px;
+  padding: 1rem 1.3rem 1.15rem;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+
+  /* look totalmente nuevo: tarjeta oscura con gradiente */
+  background: linear-gradient(145deg, #111827, #020617);
+  border: 1px solid rgba(31, 41, 55, 0.8);
+  box-shadow: 0 18px 38px rgba(15, 23, 42, 0.9);
+  color: #f9fafb;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease,
+    background 0.2s ease;
+}
+
+/* barra de color a la izquierda */
+.restaurant-card::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: -10%;
+  width: 5px;
+  height: 120%;
+  background: linear-gradient(180deg, #38bdf8, #4ade80);
+  border-radius: 999px;
+}
+
+/* halo de luz */
+.restaurant-card::after {
+  content: "";
+  position: absolute;
+  inset: -50%;
+  opacity: 0;
+  background:
+    radial-gradient(circle at top left, rgba(56, 189, 248, 0.25), transparent 60%);
+  transition: opacity 0.22s ease;
+  z-index: -1;
+}
+
+.restaurant-card:hover::after {
+  opacity: 1;
+}
+
+.restaurant-card:hover {
+  transform: translateY(-4px) scale(1.01);
+  box-shadow: 0 24px 55px rgba(15, 23, 42, 1);
+  border-color: #38bdf8;
+  background: radial-gradient(circle at top left, #0b1120, #020617);
+}
+
+/* título del restaurante */
+.restaurant-card h3 {
+  margin: 0 0 0.25rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #e5e7eb;
+}
+
+/* ubicación / descripción corta */
+.restaurant-card p {
+  margin: 0;
+  font-size: 0.82rem;
+  color: #9ca3af;
+}
+
+/* mini badge opcional (p.e. "Ver menú") usando una clase extra si la usas */
+.restaurant-card__status {
+  margin-top: 0.4rem;
+  font-size: 0.78rem;
+  color: #a5b4fc;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.restaurant-card__status::after {
+  content: "→";
+  font-size: 0.9em;
+}
+
+/* =========================
+   BOTÓN DE MENÚ (SIDEBAR)
+   ========================== */
+
 .home__menu-button-fixed {
   position: fixed;
-  top: 32px;
-  right: 32px;
-  background: #3a6cf6;
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
+  top: 26px;
+  right: 28px;
+  background: #020617;
+  color: #e5e7eb;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.7);
+  padding: 0.55em 1.3em;
+  font-size: 0.92em;
   font-weight: 500;
   cursor: pointer;
-  box-shadow: 0 2px 8px rgba(10,23,51,0.10);
-  transition: background 0.3s, color 0.3s;
+  box-shadow: 0 20px 45px rgba(15, 23, 42, 0.95);
+  transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
   z-index: 2000;
 }
+
 .home__menu-button-fixed:hover {
-  background: #213a6b;
+  background: #020617;
+  transform: translateY(-1px);
+  box-shadow: 0 24px 55px rgba(15, 23, 42, 1);
 }
 
-/* Ocultar el botón de menú original dentro del contenedor */
+/* botón de menú dentro del header (si lo usas) */
 .home__menu-button {
-  display: none;
+  padding: 0.5em 0.95em;
+  border-radius: 999px;
+  border: none;
+  background: linear-gradient(135deg, #38bdf8, #2563eb);
+  color: #0b1120;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  box-shadow: 0 14px 30px rgba(37, 99, 235, 0.7);
+  transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-@media (max-width: 700px) {
-  .home__menu-button {
-    padding: 0.5em 0.8em;
-    font-size: 0.95em;
+.home__menu-button:hover {
+  background: linear-gradient(135deg, #0ea5e9, #1d4ed8);
+  transform: translateY(-1px);
+  box-shadow: 0 18px 38px rgba(30, 64, 175, 0.9);
+}
+
+/* =========================
+   RESPONSIVE
+   ========================== */
+
+@media (max-width: 900px) {
+  .home {
+    padding: 1.7rem 1rem;
+  }
+
+  .home__main {
+    padding: 2rem 1.7rem 2.2rem;
+    border-radius: 22px;
+  }
+
+  .home__topbar {
+    align-items: flex-start;
+  }
+
+  .home__topbar-right {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .home__filters {
+    width: 100%;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .home__city-select,
+  .home__search {
+    flex: 1 1 150px;
   }
 }
 
-/* Mensajes centrados */
-.home__main > p,
-.home__main > .home__section-title {
-  text-align: center;
-}
+@media (max-width: 600px) {
+  .home {
+    padding: 1.2rem 0.6rem;
+  }
 
-/* Barra inferior oculta */
-body > .theme-toggle-btn {
-  bottom: 32px !important;
-  right: 32px !important;
+  .home__main {
+    padding: 1.7rem 1.3rem 2rem;
+    border-radius: 18px;
+  }
+
+  .home__title {
+    font-size: 2.05rem;
+  }
+
+  .restaurant-grid {
+    grid-template-columns: 1fr;
+  }
 }

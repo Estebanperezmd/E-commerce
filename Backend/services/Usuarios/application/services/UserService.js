@@ -1,22 +1,38 @@
-const UsuarioRepository = require('../../infrastructure/repositories/UsuarioRepository');
+// services/Usuarios/application/services/UserService.js
+
+const usuarioRepository = require('../../infrastructure/repositories/UsuarioRepository');
 const Usuario = require('../../domain/entities/Usuario');
 
 class UserService {
-  constructor() {
-    this.usuarioRepository = new UsuarioRepository();
+  constructor(repo = usuarioRepository) {
+    this.usuarioRepository = repo;
   }
 
   async getUsuarios() {
-    return await this.usuarioRepository.findAll();
+    return this.usuarioRepository.findAll();
   }
 
   async getUsuario(id) {
-    return await this.usuarioRepository.findById(id);
+    return this.usuarioRepository.findById(id);
   }
 
   async crearUsuario(data) {
-    const usuario = new Usuario(null, data.nombre, data.correo, data.contraseña);
-    return await this.usuarioRepository.create(usuario);
+    // Normalizamos campos que pueden venir con nombres distintos
+    const nombre =
+      data.nombre || data.username || data.user || data.name;
+    const correo =
+      data.correo || data.email;
+    const contraseña =
+      data.contraseña || data.password;
+
+    if (!nombre || !correo || !contraseña) {
+      throw new Error(
+        "Faltan datos obligatorios (nombre / usuario, correo / email, contraseña / password)"
+      );
+    }
+
+    const usuario = new Usuario(null, nombre, correo, contraseña);
+    return this.usuarioRepository.create(usuario);
   }
 }
 

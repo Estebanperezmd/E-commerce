@@ -1,4 +1,4 @@
-// infrastructure/repositories/AuthRepositoryHttp.js
+// frontend/src/infrastructure/repositories/AuthRepositoryHttp.js
 
 const AUTH_STORAGE_KEY = "currentUser";
 
@@ -8,15 +8,50 @@ export class AuthRepositoryHttp {
   }
 
   /**
-   * Inicia sesión contra el micro de usuarios.
-   * @param {string} emailOrUsername
-   * @param {string} password
+   * REGISTRO de usuario en el micro de Usuarios.
+   * Espera que el backend reciba: { nombre, correo, contraseña }
+   */
+  async register({ nombre, correo, password }) {
+    const res = await fetch(`${this.baseUrl}/usuarios`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        nombre,
+        correo,
+        contraseña: password, // 👈 clave en español para el backend
+      }),
+    });
+
+    if (!res.ok) {
+      let msg = "Error al crear usuario";
+      try {
+        const data = await res.json();
+        msg = data.error || data.message || msg;
+      } catch {
+        // ignoramos error parseando JSON
+      }
+      throw new Error(msg);
+    }
+
+    // El backend devuelve el usuario creado
+    const usuario = await res.json();
+    return usuario;
+  }
+
+  /**
+   * LOGIN contra el micro de usuarios.
+   * Para no enredarnos, asumimos que el backend ya tiene /usuarios/login
+   * que acepta { emailOrUsername, password } o similar.
+   * (ajusta si tu endpoint usa nombres distintos)
    */
   async login(emailOrUsername, password) {
     const res = await fetch(`${this.baseUrl}/usuarios/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ emailOrUsername, password }),
+      body: JSON.stringify({
+        emailOrUsername,
+        password,
+      }),
     });
 
     if (!res.ok) {
@@ -25,38 +60,33 @@ export class AuthRepositoryHttp {
         const data = await res.json();
         msg = data.error || data.message || msg;
       } catch {
-        //nothing
-        } 
+        // ignoramos error parseando JSON
+      }
       throw new Error(msg);
     }
 
-    // 🔥 Ahora sí: la respuesta REAL del backend
     const data = await res.json();
-
-    // 🔥 El backend devuelve: { user: {...}, token }
-    const user = {
-      id: data.user.id,
-      username: data.user.username,
-      name: data.user.name,
-      email: data.user.email,
+    // Espero algo tipo: { user: { id, nombre, email }, token }
+    const user = data.user || {
+      id: data.id,
+      nombre: data.nombre || data.name || "",
+      email: data.email,
     };
 
-    const token = data.token;
+    const token = data.token || user.token || null;
 
-    // Guardar en localStorage
-    localStorage.setItem(
-      AUTH_STORAGE_KEY,
-      JSON.stringify({ user, token })
-    );
-
-    // Devolver igual al AuthContext
-    return { user, token };
+    const toStore = { ...user, token };
+    localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(toStore));
+    return { user: toStore, token };
   }
 
   logout() {
     localStorage.removeItem(AUTH_STORAGE_KEY);
   }
 
+  /**
+   * Devuelve el usuario actual desde localStorage, o null si no hay.
+   */
   getCurrentUser() {
     try {
       const raw = localStorage.getItem(AUTH_STORAGE_KEY);

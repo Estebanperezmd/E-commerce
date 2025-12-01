@@ -1,37 +1,45 @@
-const { AppDataSource } = require('../../../pedido/infrastructure/databases/ConnectionFactory');
-const Cart = require('../../domain/entities/Cart');
-const CartDetail = require('../../domain/entities/CartDetail');
+// infrastructure/repositories/CartRepositoryImpl.js
+const { AppDataSource } = require("../databases/ConnectionFactory");
 
+// OJO: usamos SQL directo contra la tabla "Carritos"
 class CartRepositoryImpl {
-  constructor() {
-    this.repository = AppDataSource.getRepository(Cart);
-    this.detailRepository = AppDataSource.getRepository(CartDetail);
-  }
+  /**
+   * Devuelve el carrito "open" del usuario o lo crea si no existe.
+   */
+  async ensureCartForUser(userId) {
+    // 1) Buscar carrito abierto del usuario
+    const selectSql = `
+      SELECT 
+        id_carrito,
+        status,
+        fecha_creación,
+        invitation_link,
+        id_main_user
+      FROM "Carritos"
+      WHERE id_main_user = $1 AND status = 'open'
+      LIMIT 1
+    `;
 
-  async createCart() {
-    const cart = this.repository.create({
-      estado: 'open',
-      fecha_creacion: new Date(),
-    });
-    return await this.repository.save(cart);
-  }
+    const rows = await AppDataSource.query(selectSql, [userId]);
 
-  async addProductToCart({ id_carrito, id_producto, cantidad, id_usuario }) {
-    const detail = this.detailRepository.create({
-      id_carrito,
-      id_producto,
-      cantidad,
-      id_usuario,
-      confirmado: false,
-    });
-    return await this.detailRepository.save(detail);
-  }
+    if (rows.length > 0) {
+      return rows[0]; // ya tenía carrito
+    }
 
-  async findCartById(id) {
-    return await this.repository.findOne({
-      where: { id },
-      relations: ['detalles'],
-    });
+    // 2) Si no hay, crear uno nuevo
+    const insertSql = `
+      INSERT INTO "Carritos" (status, fecha_creación, invitation_link, id_main_user)
+      VALUES ('open', NOW(), NULL, $1)
+      RETURNING 
+        id_carrito,
+        status,
+        fecha_creación,
+        invitation_link,
+        id_main_user
+    `;
+
+    const inserted = await AppDataSource.query(insertSql, [userId]);
+    return inserted[0];
   }
 }
 

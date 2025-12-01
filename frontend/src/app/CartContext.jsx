@@ -76,6 +76,11 @@ export function CartProvider({ children }) {
 
   const clearCart = () => setItems([]);
 
+  function clearSelectedItems() {
+  setItems((prev) => prev.filter((it) => !it.selected));
+}
+
+
   const total = items.reduce(
     (sum, it) => sum + it.product.price * it.quantity,
     0
@@ -91,6 +96,7 @@ export function CartProvider({ children }) {
     toggleSelect,
     removeItem,
     clearCart,
+    clearSelectedItems,
     total,
     selectedTotal,
   };

@@ -1,17 +1,22 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const { initDatabase } = require('./infrastructure/databases/ConnectionFactory');
-const CartController = require('./interfaces/controllers/CartController');
+
+const express = require("express");
+const cors = require("cors");
+const userRoutes = require("./interfaces/routes/userRoutes");
+const cartRoutes = require("./interfaces/routes/CartRoutes");
+const { initDatabase } = require("./infrastructure/databases/ConnectionFactory");
 
 const app = express();
-app.use(bodyParser.json());
 
+app.use(cors());
+app.use(express.json());
 
-app.post('/carrito', CartController.addProduct);
-app.get('/carrito/:idUsuario', CartController.getCartByUser);
+// Rutas
+app.use("/usuarios", userRoutes);
+app.use("/carritos", cartRoutes);
 
-const PORT = process.env.PORT || 3003;
-app.listen(PORT, async() => {
-  await initDatabase();
-  console.log(`🛍️ Microservicio Carrito corriendo en puerto ${PORT}`);
+const PORT = process.env.PORT || 3002;
+
+app.listen(PORT, async () => {
+  await initDatabase();      
+  console.log(`Microservicio Usuarios corriendo en puerto ${PORT}`);
 });

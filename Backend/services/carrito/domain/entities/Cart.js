@@ -1,10 +1,16 @@
 class Cart {
-  constructor(id, fecha_creacion, estado = 'open', link_invitacion = null, productos = []) {
-    this.id = id;                     
-    this.fecha_creacion = fecha_creacion; 
-    this.estado = estado;              
-    this.link_invitacion = link_invitacion; 
-    this.productos = productos;        
+  constructor(
+    id_carrito,
+    status = "open",
+    fecha_creacion = new Date(),
+    invitation_link = null,
+    id_main_user = null
+  ) {
+    this.id_carrito = id_carrito;
+    this.status = status;
+    this.fecha_creacion = fecha_creacion;
+    this.invitation_link = invitation_link;
+    this.id_main_user = id_main_user;
   }
 }
 

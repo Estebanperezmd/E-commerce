@@ -1,0 +1,25 @@
+<!doctype html>
+<html>
+  <body>
+    <h1>Test crear usuario</h1>
+    <button id="btn">Crear usuario</button>
+    <pre id="out"></pre>
+
+    <script>
+      document.getElementById("btn").onclick = async () => {
+        const res = await fetch("http://localhost:3002/usuarios", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+  username: "user_" + Date.now(),
+  email: "user" + Date.now() + "@example.com",
+  password: "12345"
+        }),
+        });
+
+        const data = await res.json();
+        document.getElementById("out").textContent = JSON.stringify(data, null, 2);
+      };
+    </script>
+  </body>
+</html>

@@ -1,24 +1,41 @@
-const ICartRepository = require('../../domain/repositories/ICartRepository');
-const ConnectionFactory = require('../databases/ConnectionFactory');
+const { AppDataSource } = require("../databases/ConnectionFactory");
 
-class CartRepository extends ICartRepository {
-  async addToCart(cartItem) {
-    const insertQuery = `
-      INSERT INTO detalle_carrito (id_carrito, id_producto, cantidad, id_usuario, confirmado)
-      VALUES ($1, $2, $3, $4, $5)
-      RETURNING id_carrito, id_producto, cantidad, id_usuario
+class CartRepositoryImpl {
+  async ensureCartForUser(userId) {
+    // 1) Buscar carrito abierto del usuario
+    const selectSql = `
+      SELECT 
+        id_carrito,
+        status,
+        fecha_creación,
+        invitation_link,
+        id_main_user
+      FROM "Carritos"
+      WHERE id_main_user = $1 AND status = 'open'
+      LIMIT 1
     `;
-    const values = [
-      cartItem.idCarrito, 
-      cartItem.idProducto, 
-      cartItem.cantidad, 
-      cartItem.idUsuario,
-      cartItem.confirmado
-    ];
-    
-    const result = await ConnectionFactory.query(insertQuery, values);
-    return result.rows[0];
+
+    const rows = await AppDataSource.query(selectSql, [userId]);
+
+    if (rows.length > 0) {
+      return rows[0];
+    }
+
+    // 2) Crear uno nuevo si no hay
+    const insertSql = `
+      INSERT INTO "Carritos" (status, fecha_creación, invitation_link, id_main_user)
+      VALUES ('open', NOW(), NULL, $1)
+      RETURNING 
+        id_carrito,
+        status,
+        fecha_creación,
+        invitation_link,
+        id_main_user
+    `;
+
+    const inserted = await AppDataSource.query(insertSql, [userId]);
+    return inserted[0];
   }
 }
 
-module.exports = CartRepository;
+module.exports = CartRepositoryImpl;

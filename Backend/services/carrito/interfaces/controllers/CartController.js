@@ -1,48 +1,28 @@
-const axios = require('axios');
-const ConnectionFactory = require('../../infrastructure/databases/ConnectionFactory');
-const CartDTO = require('../dtos/CartDTO');
+// interfaces/controllers/CartController.js
+const CartRepositoryImpl = require("../../infrastructure/repositories/CartRepositoryImpl");
+
+const cartRepo = new CartRepositoryImpl();
 
 class CartController {
-  static async addProduct(req, res) {
+  /**
+   * POST /carritos/ensure
+   * Body: { "userId": 1 }
+   */
+  static async ensureCartForUser(req, res) {
     try {
-      const { id_usuario, id_producto, cantidad } = req.body;
+      const { userId } = req.body;
 
-      // Validar existencia del usuario
-      const userResponse = await axios.get(`http://localhost:3000/usuarios/${id_usuario}`);
-      if (!userResponse.data) return res.status(404).json({ message: 'Usuario no encontrado' });
+      if (!userId) {
+        return res
+          .status(400)
+          .json({ error: "userId es requerido en el body" });
+      }
 
-      // Validar existencia del producto
-      const productResponse = await axios.get(`http://localhost:3001/productos/${id_producto}`);
-      if (!productResponse.data) return res.status(404).json({ message: 'Producto no encontrado' });
-
-      // Insertar producto en carrito
-      const query = `
-        INSERT INTO carrito (id_usuario, id_producto, cantidad, fecha_creacion)
-        VALUES ($1, $2, $3, NOW())
-        RETURNING id, id_usuario, id_producto, cantidad, fecha_creacion
-      `;
-      const result = await ConnectionFactory.query(query, [id_usuario, id_producto, cantidad]);
-
-      const cartDto = new CartDTO(result.rows[0]);
-      return res.status(201).json(cartDto);
-    } catch (error) {
-      res.status(500).json({ error: error.message });
-    }
-  }
-
-  static async getCartByUser(req, res) {
-    try {
-      const { idUsuario } = req.params;
-      const query = `SELECT * FROM carrito WHERE id_usuario = $1`;
-      const result = await ConnectionFactory.query(query, [idUsuario]);
-
-      if (result.rows.length === 0)
-        return res.status(404).json({ message: 'Carrito vacío o usuario no encontrado' });
-
-      const cartItems = result.rows.map(row => new CartDTO(row));
-      res.status(200).json(cartItems);
-    } catch (error) {
-      res.status(500).json({ error: error.message });
+      const cart = await cartRepo.ensureCartForUser(Number(userId));
+      return res.status(200).json(cart);
+    } catch (err) {
+      console.error("Error ensureCartForUser:", err);
+      res.status(500).json({ error: "Error asegurando carrito" });
     }
   }
 }
