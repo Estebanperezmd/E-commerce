@@ -1,8 +1,11 @@
 import { useNavigate } from "react-router-dom";
 import "./Sidebar.css";
+import { useAuth } from "../../app/AuthContext";
+
 
 export default function Sidebar({ isOpen, onClose }) {
   const navigate = useNavigate();
+  const { auth } = useAuth();  // 👈 ahora sí existe
 
   const goTo = (path) => {
     navigate(path);
@@ -28,12 +31,16 @@ export default function Sidebar({ isOpen, onClose }) {
             Inicio
           </button>
 
-          <button
-            className="sidebar__item"
-            onClick={() => goTo("/cart")}
-          >
-            Carritos compartidos
-          </button>
+         <button
+  className="sidebar__item"
+  onClick={() => {
+    if (!auth?.user) navigate("/login");
+    else navigate("/cart");
+  }}
+>
+  Carritos compartidos
+</button>
+
 
           <button className="sidebar__item" onClick={() => goTo("/profile")}> 
             Perfil

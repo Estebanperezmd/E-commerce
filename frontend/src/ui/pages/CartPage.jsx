@@ -1,7 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../../app/CartContext";
+import { useAuth } from "../../app/AuthContext";
 import AppLayout from "../components/AppLayout";
 import "./CartPage.css";
+import { useState } from "react";
 
 export default function CartPage() {
   const {
@@ -12,7 +14,11 @@ export default function CartPage() {
     total,
     selectedTotal,
   } = useCart();
+
+  const { auth } = useAuth();
   const navigate = useNavigate();
+
+  const [invitationLink, setInvitationLink] = useState("");
 
   if (items.length === 0) {
     return (
@@ -22,11 +28,37 @@ export default function CartPage() {
     );
   }
 
+  // ⭐ Crear el carrito en backend
+  const createSharedCart = async () => {
+    if (!auth?.user) {
+      alert("Debes iniciar sesión para crear un carrito compartido.");
+      navigate("/login");
+      return;
+    }
+
+    try {
+      const res = await fetch("http://localhost:3007/create", {
+        method: "POST",
+      });
+
+      if (!res.ok) throw new Error("Error al crear carrito");
+
+      const data = await res.json();
+
+      // ⭐ Construir link válido con cartId + ownerId
+      const link = `${window.location.origin}/join/${data.id_carrito}/${auth.user.id}`;
+
+      setInvitationLink(link);
+
+      alert("Carrito compartido creado correctamente.");
+    } catch (err) {
+      console.error(err);
+      alert("Error creando carrito compartido.");
+    }
+  };
+
   return (
-    <AppLayout
-      title="Carrito"
-      subtitle="Selecciona qué productos quieres pagar."
-    >
+    <AppLayout title="Carrito" subtitle="Selecciona qué productos quieres pagar.">
       <button className="back-button" onClick={() => navigate("/home")}>
         ← Volver
       </button>
@@ -44,13 +76,10 @@ export default function CartPage() {
               <div className="cart-card__info">
                 <h3 className="cart-card__name">{product.name}</h3>
                 {restaurant?.name && (
-                  <p className="cart-card__restaurant">
-                    {restaurant.name}
-                  </p>
+                  <p className="cart-card__restaurant">{restaurant.name}</p>
                 )}
                 <p className="cart-card__meta">
-                  Cantidad: {quantity} · Precio unitario: $
-                  {product.price.toFixed(2)}
+                  Cantidad: {quantity} · Precio unitario: ${product.price.toFixed(2)}
                 </p>
               </div>
             </div>
@@ -76,12 +105,11 @@ export default function CartPage() {
             Total carrito: <strong>${total.toFixed(2)}</strong>
           </p>
           <p>
-            Total seleccionados:{" "}
-            <strong>${selectedTotal.toFixed(2)}</strong>
+            Total seleccionados: <strong>${selectedTotal.toFixed(2)}</strong>
           </p>
         </div>
 
-        <div className="cart-summary__actions" style={{marginBottom: '1.5rem'}}>
+        <div className="cart-summary__actions" style={{ marginBottom: "1.5rem" }}>
           <button className="cart-summary__clear" onClick={clearCart}>
             Vaciar carrito
           </button>
@@ -95,21 +123,52 @@ export default function CartPage() {
         </div>
       </div>
 
-      {/* Espacio para el link de invitación (abajo, fuera de cart-summary) */}
-      <div style={{margin: '2rem 0 0 0', width: '100%', textAlign: 'center'}}>
-        <label style={{fontWeight: 'bold', color: '#2563eb', display: 'block', marginBottom: '0.5rem'}}>Enlace de invitación:</label>
+      {/* ⭐ BLOQUE DEL LINK DE INVITACIÓN */}
+      <div style={{ margin: "2rem 0 0 0", width: "100%", textAlign: "center" }}>
+        <label
+          style={{
+            fontWeight: "bold",
+            color: "#2563eb",
+            display: "block",
+            marginBottom: "0.5rem",
+          }}
+        >
+          Enlace de invitación:
+        </label>
+
         <input
           type="text"
-          value={window.location.origin + '/cart?shared=' + Date.now()}
+          value={invitationLink}
           readOnly
-          style={{width: '80%', maxWidth: '400px', padding: '0.5rem', borderRadius: '8px', border: '1px solid #e5e7eb', marginBottom: '0.5rem', background: '#f8fafc', color: '#222'}}
+          placeholder="Crea un link compartido"
+          style={{
+            width: "80%",
+            maxWidth: "420px",
+            padding: "0.5rem",
+            borderRadius: "8px",
+            border: "1px solid #e5e7eb",
+            marginBottom: "0.5rem",
+            background: "#f8fafc",
+            color: "#222",
+          }}
         />
+
         <br />
+
         <button
-          onClick={() => {navigator.clipboard.writeText(window.location.origin + '/cart?shared=' + Date.now())}}
-          style={{background: '#2563eb', color: 'white', border: 'none', borderRadius: '8px', padding: '0.5rem 1.5rem', fontWeight: 'bold', cursor: 'pointer', marginTop: '0.5rem'}}
+          onClick={createSharedCart}
+          style={{
+            background: "#2563eb",
+            color: "white",
+            border: "none",
+            borderRadius: "8px",
+            padding: "0.5rem 1.5rem",
+            fontWeight: "bold",
+            cursor: "pointer",
+            marginTop: "0.5rem",
+          }}
         >
-          Copiar enlace
+          Crear carrito compartido
         </button>
       </div>
     </AppLayout>

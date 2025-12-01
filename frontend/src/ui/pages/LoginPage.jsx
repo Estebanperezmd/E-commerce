@@ -30,6 +30,12 @@ export default function LoginPage() {
         user: result.user,
         token: result.token,
       });
+      const pending = localStorage.getItem("pending_shared_cart");
+if (pending) {
+  const { cartId } = JSON.parse(pending);
+  localStorage.removeItem("pending_shared_cart");
+  return navigate(`/cart?shared=${cartId}`);
+}
 
       navigate("/home");
     } catch (err) {

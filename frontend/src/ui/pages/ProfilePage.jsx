@@ -1,9 +1,26 @@
-import { useAuth } from "../../app/AuthContext";
 import AppLayout from "../components/AppLayout";
-import "./ProfilePage.css";
+import { useAuth } from "../../app/AuthContext";
+
+const AUTH_KEY = "auth_data";
 
 export default function ProfilePage() {
-  const { user, clearAuth } = useAuth();
+  const { auth } = useAuth();
+
+  // 1) Intentar desde el contexto
+  let user = auth?.user || null;
+
+  // 2) Si viene null pero hay algo en localStorage, usarlo
+  if (!user) {
+    try {
+      const raw = localStorage.getItem(AUTH_KEY);
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        user = parsed.user || null;
+      }
+    } catch (e) {
+      console.error("Error leyendo auth_data desde localStorage", e);
+    }
+  }
 
   if (!user) {
     return (
@@ -14,35 +31,39 @@ export default function ProfilePage() {
   }
 
   return (
-    <AppLayout title="Perfil" subtitle="">
-      <div className="profile-card">
-        <div className="profile-row">
-          <span className="label">ID:</span>
-          <span>{user.id}</span>
-        </div>
-        <div className="profile-row">
-          <span className="label">Usuario:</span>
-          <span>{user.username}</span>
-        </div>
-        <div className="profile-row">
-          <span className="label">Nombre:</span>
-          <span>{user.name || "—"}</span>
-        </div>
-        <div className="profile-row">
-          <span className="label">Correo:</span>
-          <span>{user.email}</span>
+    <AppLayout title="Perfil" subtitle="Información de tu cuenta.">
+      <div style={{ maxWidth: "480px", margin: "0 auto" }}>
+        <h2 style={{ marginBottom: "1rem" }}>
+          Hola,{" "}
+          <span style={{ color: "#3b82f6" }}>
+            {user.nombre || user.name || user.users}
+          </span>
+        </h2>
+
+        <div
+          style={{
+            background: "#f9fafb",
+            borderRadius: "12px",
+            padding: "1.2rem 1.4rem",
+            boxShadow: "0 1px 4px rgba(15,23,42,0.08)",
+            fontSize: "0.95rem",
+          }}
+        >
+          <p>
+            <strong>ID:</strong> {user.id}
+          </p>
+          {user.email && (
+            <p>
+              <strong>Correo:</strong> {user.email}
+            </p>
+          )}
+          {user.users && (
+            <p>
+              <strong>Usuario:</strong> {user.users}
+            </p>
+          )}
         </div>
       </div>
-
-      <button
-        className="profile-logout"
-        onClick={() => {
-          clearAuth();
-          window.location.href = "/";
-        }}
-      >
-        Cerrar sesión
-      </button>
     </AppLayout>
   );
 }
